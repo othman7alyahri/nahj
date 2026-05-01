@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html dir="rtl" lang="ar">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>نهج | Nahj</title>
+<style>
+@font-face { font-family:'ThmanyahSerif'; src:url('thmanyahserifdisplay-Regular.otf') format('opentype'); }
+@font-face { font-family:'ThmanyahSans'; src:url('thmanyahsans-Regular.otf') format('opentype'); }
+* { margin:0; padding:0; box-sizing:border-box; }
+:root {
+  --purple:#6C4CF1; --purple-dark:#4F35C2; --purple-light:#EEE9FE;
+  --lime:#C6F542; --lime-dark:#9DC918;
+  --black:#1A1A1A; --gray:#555; --gray-light:#F5F5F5;
+  --bg:#fff; --border:rgba(108,76,241,0.15);
+}
+body { font-family:'ThmanyahSans',sans-serif; background:var(--bg); color:var(--black); direction:rtl; }
+h1,h2,h3,.logo-ar { font-family:'ThmanyahSerif',serif; }
+
+/* NAV */
+.nav { display:flex; align-items:center; justify-content:space-between; padding:14px 36px; position:absolute; top:0; left:0; right:0; z-index:20; }
+.logo { display:flex; align-items:center; gap:10px; }
+.logo-icon { width:40px; height:40px; border-radius:10px; background:var(--purple); display:flex; align-items:center; justify-content:center; transition:transform 0.2s; }
+.logo-icon:hover { transform:scale(1.08); }
+.logo-icon svg { width:20px; height:20px; fill:white; }
+.logo-divider { width:1px; height:28px; background:rgba(108,76,241,0.2); }
+.logo-mark { display:flex; flex-direction:column; gap:1px; }
+.logo-ar { font-size:19px; color:var(--purple); line-height:1; }
+.logo-en { font-size:10px; color:var(--gray); letter-spacing:2.5px; line-height:1; font-family:'ThmanyahSans',sans-serif; }
+.nav-links { display:flex; gap:24px; align-items:center; }
+.nav-links a { font-size:13px; color:var(--gray); text-decoration:none; transition:color 0.2s; cursor:pointer; }
+.nav-links a:hover { color:var(--purple); }
+.lang-btn { font-size:12px; color:var(--gray); border:0.5px solid var(--border); padding:5px 12px; border-radius:8px; cursor:pointer; transition:all 0.2s; background:#fff; }
+.lang-btn:hover { border-color:var(--purple); color:var(--purple); }
+.nav-btn { background:var(--purple); color:var(--lime); padding:9px 20px; border-radius:8px; font-size:13px; text-decoration:none; font-family:'ThmanyahSans',sans-serif; font-weight:600; transition:transform 0.2s,background 0.2s; }
+.nav-btn:hover { transform:scale(1.05); background:var(--purple-dark); }
+
+/* HERO */
+.hero { background:#FAFAF7; min-height:100vh; display:flex; flex-direction:column; align-items:center; justify-content:center; position:relative; overflow:hidden; padding:120px 36px 100px; text-align:center; }
+.hero-grid { position:absolute; inset:0; background-image:linear-gradient(rgba(108,76,241,0.07) 1px,transparent 1px),linear-gradient(90deg,rgba(108,76,241,0.07) 1px,transparent 1px); background-size:36px 36px; -webkit-mask-image:linear-gradient(to bottom,black 30%,transparent 100%); mask-image:linear-gradient(to bottom,black 30%,transparent 100%); }
+.hero-orb { position:absolute; border-radius:50%; filter:blur(60px); pointer-events:none; }
+.orb1 { width:300px; height:300px; background:rgba(108,76,241,0.07); top:-80px; right:-60px; }
+.orb2 { width:200px; height:200px; background:rgba(198,245,66,0.15); bottom:80px; left:-40px; }
+.hero-content { position:relative; z-index:2; max-width:700px; }
+.hero-badge { display:inline-flex; align-items:center; gap:8px; background:#fff; border:1px solid rgba(108,76,241,0.2); color:var(--purple); font-size:12px; padding:6px 18px; border-radius:20px; margin-bottom:32px; box-shadow:0 2px 12px rgba(108,76,241,0.08); }
+.hero-badge .bdot { width:6px; height:6px; border-radius:50%; background:var(--lime); border:1px solid var(--lime-dark); animation:bdotBlink 1.5s infinite; }
+@keyframes bdotBlink { 0%,100%{opacity:1} 50%{opacity:0.4} }
+.hero h1 { font-size:54px; color:var(--black); line-height:1.25; margin-bottom:12px; }
+.hero h1 .word-nahj { color:var(--purple); position:relative; }
+.hero h1 .word-nahj::after { content:''; position:absolute; bottom:-4px; right:0; left:0; height:4px; background:var(--lime); border-radius:2px; }
+.hero-sub-line { display:inline-flex; align-items:center; gap:10px; font-size:18px; color:var(--gray); margin-bottom:40px; }
+.hero-sub-line .cursor { display:inline-block; width:2px; height:20px; background:var(--purple); vertical-align:middle; animation:curBlink 1s infinite; }
+@keyframes curBlink { 0%,100%{opacity:1} 50%{opacity:0} }
+.input-section { max-width:620px; width:100%; margin:0 auto 18px; }
+.input-label { font-size:13px; color:var(--gray); margin-bottom:10px; text-align:right; }
+.input-wrapper { background:#fff; border:1.5px solid rgba(108,76,241,0.25); border-radius:14px; padding:6px 6px 6px 12px; display:flex; align-items:flex-end; gap:10px; box-shadow:0 4px 20px rgba(108,76,241,0.08); transition:border-color 0.3s,box-shadow 0.3s; }
+.input-wrapper:focus-within { border-color:var(--purple); box-shadow:0 4px 24px rgba(108,76,241,0.15); }
+.input-wrapper textarea { flex:1; border:none; outline:none; resize:none; font-family:'ThmanyahSans',sans-serif; font-size:14px; color:var(--black); background:transparent; padding:10px 6px; min-height:56px; line-height:1.7; }
+.input-wrapper textarea::placeholder { color:#bbb; }
+.input-send { background:var(--purple); color:var(--lime); border:none; border-radius:10px; padding:12px 22px; font-size:13px; cursor:pointer; font-family:'ThmanyahSans',sans-serif; font-weight:600; white-space:nowrap; margin-bottom:2px; transition:transform 0.2s,background 0.2s; }
+.input-send:hover { transform:scale(1.05); background:var(--purple-dark); }
+.input-hints { display:flex; gap:8px; flex-wrap:wrap; justify-content:center; margin-top:12px; }
+.hint-pill { background:#fff; color:var(--gray); font-size:12px; padding:7px 16px; border-radius:20px; border:1px solid rgba(108,76,241,0.15); cursor:pointer; transition:all 0.2s; box-shadow:0 1px 4px rgba(0,0,0,0.04); }
+.hint-pill:hover { background:var(--purple-light); color:var(--purple); border-color:var(--purple); transform:translateY(-2px); }
+.hero-fade { position:absolute; bottom:0; left:0; right:0; height:120px; background:linear-gradient(to bottom,transparent,#fff); pointer-events:none; z-index:1; }
+
+/* CONTENT */
+.content { background:#fff; position:relative; z-index:2; }
+.stats { display:grid; grid-template-columns:repeat(2,1fr); gap:14px; padding:56px 36px 0; }
+.stat-card { background:var(--gray-light); border-radius:14px; padding:22px; text-align:center; transition:transform 0.2s,box-shadow 0.2s; }
+.stat-card:hover { transform:translateY(-4px); box-shadow:0 8px 24px rgba(108,76,241,0.1); }
+.stat-num { font-size:28px; color:var(--purple); font-family:'ThmanyahSerif',serif; }
+.stat-label { font-size:12px; color:var(--gray); margin-top:6px; }
+.section { padding:56px 36px 0; }
+.section-title { font-size:22px; color:var(--black); margin-bottom:6px; }
+.section-sub { font-size:13px; color:var(--gray); margin-bottom:22px; }
+.steps { display:grid; grid-template-columns:repeat(auto-fit,minmax(180px,1fr)); gap:14px; }
+.step-card { background:var(--gray-light); border-radius:14px; padding:24px; transition:transform 0.2s,box-shadow 0.2s; }
+.step-card:hover { transform:translateY(-4px); box-shadow:0 8px 24px rgba(108,76,241,0.1); }
+.step-num { font-size:38px; color:var(--purple); font-family:'ThmanyahSerif',serif; opacity:0.2; margin-bottom:10px; line-height:1; }
+.step-card h3 { font-size:15px; color:var(--black); margin-bottom:8px; }
+.step-card p { font-size:12px; color:var(--gray); line-height:1.7; }
+.features { display:grid; grid-template-columns:repeat(auto-fit,minmax(180px,1fr)); gap:14px; }
+.feature-card { background:var(--gray-light); border-radius:14px; padding:20px; transition:transform 0.2s,box-shadow 0.2s; }
+.feature-card:hover { transform:translateY(-4px); box-shadow:0 8px 24px rgba(108,76,241,0.1); }
+.feature-icon { width:42px; height:42px; border-radius:10px; display:flex; align-items:center; justify-content:center; margin-bottom:14px; font-size:20px; transition:transform 0.2s; }
+.feature-card:hover .feature-icon { transform:scale(1.1); }
+.feature-card h3 { font-size:15px; color:var(--black); margin-bottom:7px; }
+.feature-card p { font-size:12px; color:var(--gray); line-height:1.7; }
+
+/* CINEMATIC CHAT */
+.cinema-chat { background:var(--gray-light); border-radius:16px; padding:28px; }
+.chat-msgs { display:flex; flex-direction:column; gap:18px; }
+.msg-row { display:flex; align-items:flex-end; gap:10px; opacity:0; transform:translateY(12px); transition:opacity 0.5s ease,transform 0.5s ease; }
+.msg-row.show { opacity:1; transform:translateY(0); }
+.msg-row.user { flex-direction:row-reverse; }
+.msg-avatar { width:34px; height:34px; border-radius:50%; flex-shrink:0; display:flex; align-items:center; justify-content:center; }
+.av-ai { background:var(--purple); }
+.av-ai svg { width:16px; height:16px; fill:white; }
+.av-user { background:var(--black); }
+.av-user svg { width:16px; height:16px; }
+.msg-bubble { max-width:72%; padding:12px 16px; border-radius:16px; font-size:13.5px; line-height:1.8; direction:rtl; text-align:right; position:relative; }
+.msg-bubble.ai { background:#fff; color:var(--black); border-bottom-right-radius:4px; border:0.5px solid #e8e8e8; }
+.msg-bubble.user { background:var(--purple); color:var(--lime); border-bottom-left-radius:4px; }
+/* ✅ كيرسور يظهر في نهاية النص بدون قلب */
+.msg-bubble::after { content:''; display:inline-block; width:2px; height:14px; background:var(--purple); vertical-align:middle; margin-right:2px; animation:curBlink 0.8s infinite; opacity:0; }
+.msg-bubble.typing::after { opacity:1; }
+.msg-bubble.user::after { background:var(--lime); }
+
+/* PRICING */
+.pricing { display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); gap:14px; }
+.price-card { background:var(--gray-light); border-radius:14px; padding:26px; transition:transform 0.2s,box-shadow 0.2s; }
+.price-card:hover { transform:translateY(-4px); box-shadow:0 8px 24px rgba(108,76,241,0.1); }
+.price-card.featured { background:var(--black); }
+.price-card.featured:hover { box-shadow:0 8px 28px rgba(198,245,66,0.15); }
+.price-badge { display:inline-block; background:var(--lime); color:var(--black); font-size:11px; font-weight:600; padding:4px 12px; border-radius:20px; margin-bottom:12px; }
+.price-card h3 { font-size:20px; color:var(--black); margin-bottom:6px; }
+.price-card.featured h3 { color:#fff; }
+.price-amount { font-size:32px; color:var(--purple); margin:12px 0; font-family:'ThmanyahSerif',serif; }
+.price-card.featured .price-amount { color:var(--lime); }
+.price-amount span { font-size:14px; color:var(--gray); font-family:'ThmanyahSans',sans-serif; }
+.price-card.featured .price-amount span { color:#888; }
+.price-features { list-style:none; margin-top:14px; }
+.price-features li { font-size:13px; color:var(--gray); padding:6px 0; border-bottom:0.5px solid #e0e0e0; }
+.price-card.featured .price-features li { color:#aaa; border-bottom-color:#2a2a2a; }
+.price-features li::before { content:"✓ "; color:var(--purple); }
+.price-card.featured .price-features li::before { color:var(--lime); }
+.price-btn { width:100%; margin-top:18px; padding:12px; border-radius:9px; font-size:14px; cursor:pointer; font-family:'ThmanyahSans',sans-serif; border:1.5px solid var(--purple); background:transparent; color:var(--purple); transition:transform 0.2s,background 0.2s; }
+.price-btn:hover { transform:scale(1.03); background:var(--purple-light); }
+.price-btn.featured-btn { background:var(--lime); color:var(--black); border:none; font-weight:600; }
+.price-btn.featured-btn:hover { background:var(--lime-dark); transform:scale(1.03); }
+.footer { border-top:0.5px solid #e8e8e8; padding:24px 36px; margin-top:60px; display:flex; justify-content:space-between; align-items:center; }
+.footer-logo-ar { font-family:'ThmanyahSerif',serif; font-size:19px; color:var(--purple); }
+.footer-logo-en { font-size:10px; color:var(--gray); letter-spacing:2.5px; }
+.footer p { font-size:12px; color:var(--gray); }
+</style>
+</head>
+<body>
+
+<nav class="nav">
+  <div class="logo">
+    <div class="logo-icon">
+      <svg viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
+    </div>
+    <div class="logo-divider"></div>
+    <div class="logo-mark">
+      <span class="logo-ar">نهج</span>
+      <span class="logo-en">NAHJ</span>
+    </div>
+  </div>
+  <div class="nav-links">
+    <a onclick="smoothScroll('how')">كيف يعمل</a>
+    <a onclick="smoothScroll('features')">الميزات</a>
+    <a onclick="smoothScroll('pricing')">الأسعار</a>
+    <span class="lang-btn">EN</span>
+    <a href="#" class="nav-btn">ابدأ مجاناً</a>
+  </div>
+</nav>
+
+<section class="hero">
+  <div class="hero-grid"></div>
+  <div class="hero-orb orb1"></div>
+  <div class="hero-orb orb2"></div>
+  <div class="hero-content">
+    <div class="hero-badge"><span class="bdot"></span> مساعدك التعليمي الذكي</div>
+    <h1>افتح طريقك<br>للمعرفة مع <span class="word-nahj">نهج</span></h1>
+    <div class="hero-sub-line">
+      <span class="cursor"></span>
+      <span id="typed-text">أي مادة، أي مستوى، أي وقت</span>
+    </div>
+    <div class="input-section">
+      <p class="input-label">اكتب المادة أو المشروع الذي تحتاج مساعدة فيه:</p>
+      <div class="input-wrapper">
+        <textarea placeholder="مثال: أحتاج مساعدة في حل معادلات الدرجة الثانية...&#10;أو: عندي مشروع عن تغير المناخ..."></textarea>
+        <button class="input-send">ابدأ ←</button>
+      </div>
+      <div class="input-hints">
+        <span class="hint-pill">🤖 مساعد ذكي</span>
+        <span class="hint-pill">📚 تلخيص الكتاب</span>
+        <span class="hint-pill">📝 اختبارات تلقائية</span>
+        <span class="hint-pill">🏗️ بناء مشروع</span>
+        <span class="hint-pill">📊 تتبع التقدم</span>
+      </div>
+    </div>
+  </div>
+  <div class="hero-fade"></div>
+</section>
+
+<div class="content">
+  <div class="stats">
+    <div class="stat-card"><div class="stat-num">∞</div><div class="stat-label">مواد بلا حدود</div></div>
+    <div class="stat-card"><div class="stat-num">24/7</div><div class="stat-label">مساعد ذكي دائم</div></div>
+  </div>
+
+  <div class="section" id="how">
+    <h2 class="section-title">كيف يعمل نهج؟</h2>
+    <p class="section-sub">ثلاث خطوات بسيطة للحصول على المساعدة</p>
+    <div class="steps">
+      <div class="step-card"><div class="step-num">١</div><h3>أخبرنا بما تحتاج</h3><p>اكتب المادة أو المشروع بكلماتك الخاصة</p></div>
+      <div class="step-card"><div class="step-num">٢</div><h3>المساعد يفهمك</h3><p>يحلل طلبك ويقدم شرحاً مخصصاً يناسب مستواك</p></div>
+      <div class="step-card"><div class="step-num">٣</div><h3>تعلّم وتقدّم</h3><p>اسأل أسئلة واطلب أمثلة حتى تفهم بشكل كامل</p></div>
+    </div>
+  </div>
+
+  <div class="section" id="features">
+    <h2 class="section-title">ميزات نهج</h2>
+    <p class="section-sub">كل ما تحتاجه في مكان واحد</p>
+    <div class="features">
+      <div class="feature-card"><div class="feature-icon" style="background:var(--purple-light);">🤖</div><h3>مساعد ذكي</h3><p>يجيب على أسئلتك بالعربية أو الإنجليزية فوراً</p></div>
+      <div class="feature-card"><div class="feature-icon" style="background:#f0ffd0;">📚</div><h3>تلخيص الكتاب</h3><p>أرفع أي كتاب أو ملف والمساعد يلخصه بأسلوب واضح</p></div>
+      <div class="feature-card"><div class="feature-icon" style="background:var(--purple-light);">📝</div><h3>اختبارات تلقائية</h3><p>اختبارات مخصصة لمادتك لقياس مستوى فهمك</p></div>
+      <div class="feature-card"><div class="feature-icon" style="background:#f0ffd0;">🏗️</div><h3>بناء مشروع</h3><p>تخطيط وبحث وترتيب أفكار مشروعك خطوة بخطوة</p></div>
+      <div class="feature-card"><div class="feature-icon" style="background:var(--purple-light);">📊</div><h3>تتبع التقدم</h3><p>راقب تطورك في كل مادة أو مشروع بمرور الوقت</p></div>
+    </div>
+  </div>
+
+  <div class="section">
+    <h2 class="section-title">شاهد المساعد في العمل</h2>
+    <p class="section-sub">محادثة حقيقية مع مساعد نهج</p>
+    <div class="cinema-chat">
+      <div class="chat-msgs" id="chatMsgs"></div>
+    </div>
+  </div>
+
+  <div class="section" id="pricing">
+    <h2 class="section-title">الأسعار</h2>
+    <p class="section-sub">ابدأ مجاناً وطوّر تجربتك</p>
+    <div class="pricing">
+      <div class="price-card">
+        <h3>مجاني</h3>
+        <div class="price-amount">0 <span>/ شهر</span></div>
+        <ul class="price-features">
+          <li>مساعدة في أي مادة</li>
+          <li>مساعد ذكي محدود</li>
+          <li>10 محادثات شهرياً</li>
+        </ul>
+        <button class="price-btn">ابدأ الآن</button>
+      </div>
+      <div class="price-card featured">
+        <div class="price-badge">الأكثر شيوعاً</div>
+        <h3>احترافي</h3>
+        <div class="price-amount">29 <span>ريال / شهر</span></div>
+        <ul class="price-features">
+          <li>مساعدة في أي مادة</li>
+          <li>مساعد ذكي غير محدود</li>
+          <li>تلخيص الكتب والملفات</li>
+          <li>اختبارات تلقائية</li>
+          <li>تتبع التقدم التفصيلي</li>
+        </ul>
+        <button class="price-btn featured-btn">اشترك الآن</button>
+      </div>
+    </div>
+  </div>
+
+  <footer class="footer">
+    <div>
+      <div class="footer-logo-ar">نهج</div>
+      <div class="footer-logo-en">NAHJ</div>
+    </div>
+    <p>منصة تعليمية مدعومة بالذكاء الاصطناعي © 2025</p>
+  </footer>
+</div>
+
+<script>
+/* ✅ سكرول أبطأ وأكثر سلاسة */
+function smoothScroll(id) {
+  const target = document.getElementById(id);
+  if (!target) return;
+  const start = window.pageYOffset;
+  const end = target.getBoundingClientRect().top + start - 80;
+  const duration = 1200;
+  let startTime = null;
+  function easeInOutCubic(t) { return t<0.5 ? 4*t*t*t : 1-Math.pow(-2*t+2,3)/2; }
+  function step(ts) {
+    if (!startTime) startTime = ts;
+    const elapsed = ts - startTime;
+    const progress = Math.min(elapsed / duration, 1);
+    window.scrollTo(0, start + (end - start) * easeInOutCubic(progress));
+    if (progress < 1) requestAnimationFrame(step);
+  }
+  requestAnimationFrame(step);
+}
+
+/* آلة كتابة الهيرو */
+const phrases = ['أي مادة، أي مستوى، أي وقت','رياضيات، علوم، لغات وأكثر','اسأل، تعلّم، تقدّم','مساعدك الذكي على مدار الساعة'];
+let pi=0, ci=0, del=false;
+const el = document.getElementById('typed-text');
+function type() {
+  const p = phrases[pi];
+  if (!del) { el.textContent = p.slice(0,++ci); if(ci===p.length){del=true;setTimeout(type,1800);return;} }
+  else { el.textContent = p.slice(0,--ci); if(ci===0){del=false;pi=(pi+1)%phrases.length;setTimeout(type,400);return;} }
+  setTimeout(type, del?40:70);
+}
+type();
+
+/* ✅ محادثة سينمائية — النص يُعرض كاملاً بدون قلب */
+const msgs = [
+  { role:'user', text:'عندي امتحان رياضيات بكرا وما فهمت المشتقات' },
+  { role:'ai',   text:'لا تقلق! المشتقة تقيس مدى سرعة تغيّر الدالة. مثلاً إذا كان f(x) = x² فإن f\'(x) = 2x — عند x=3 معدل التغيير يساوي 6.' },
+  { role:'user', text:'وش الفرق بين المشتقة والتفاضل؟' },
+  { role:'ai',   text:'المشتقة هي النتيجة، والتفاضل هو العملية — تماماً مثل الفرق بين "الجواب" و"طريقة الحل". هل تريد أتدرب معك على أسئلة؟ 💪' },
+];
+
+const aiIcon = `<svg viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5z"/></svg>`;
+const userIcon = `<svg viewBox="0 0 24 24" fill="none" stroke="#C6F542" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>`;
+
+function sleep(ms){ return new Promise(r=>setTimeout(r,ms)); }
+
+/* ✅ الكتابة بتحديث النص كاملاً في كل خطوة — يحل مشكلة القلب */
+async function typeText(bubble, text) {
+  bubble.classList.add('typing');
+  let displayed = '';
+  for (let i = 0; i < text.length; i++) {
+    displayed += text[i];
+    bubble.textContent = displayed;
+    const ch = text[i];
+    const delay = ch === ' ' ? 30 : (ch==='.'||ch==='!'||ch==='،'||ch==='؟') ? 120 : 45;
+    await sleep(delay);
+  }
+  bubble.classList.remove('typing');
+}
+
+async function runChat() {
+  const container = document.getElementById('chatMsgs');
+  await sleep(800);
+  for (let m of msgs) {
+    const row = document.createElement('div');
+    row.className = 'msg-row ' + m.role;
+    const av = document.createElement('div');
+    av.className = 'msg-avatar ' + (m.role==='ai' ? 'av-ai' : 'av-user');
+    av.innerHTML = m.role==='ai' ? aiIcon : userIcon;
+    const bubble = document.createElement('div');
+    bubble.className = 'msg-bubble ' + m.role;
+    row.appendChild(av);
+    row.appendChild(bubble);
+    container.appendChild(row);
+    await sleep(60);
+    row.classList.add('show');
+    await sleep(300);
+    if (m.role==='ai') await sleep(500);
+    await typeText(bubble, m.text);
+    await sleep(m.role==='user' ? 600 : 1000);
+  }
+}
+runChat();
+</script>
+</body>
+</html>
