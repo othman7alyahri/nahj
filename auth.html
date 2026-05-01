@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html dir="rtl" lang="ar">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>نهج | تسجيل الدخول</title>
+<style>
+@font-face { font-family:'ThmanyahSerif'; src:url('thmanyahserifdisplay-Regular.otf') format('opentype'); }
+@font-face { font-family:'ThmanyahSans'; src:url('thmanyahsans-Regular.otf') format('opentype'); }
+* { margin:0; padding:0; box-sizing:border-box; }
+:root {
+  --purple:#6C4CF1; --purple-dark:#4F35C2; --purple-light:#EEE9FE;
+  --lime:#C6F542; --lime-dark:#9DC918;
+  --black:#1A1A1A; --gray:#555; --gray-light:#F5F5F5;
+  --border:rgba(108,76,241,0.15);
+}
+body { font-family:'ThmanyahSans',sans-serif; background:#FAFAF7; color:var(--black); direction:rtl; min-height:100vh; display:flex; flex-direction:column; }
+
+/* شبكة الخلفية */
+.bg-grid {
+  position:fixed; inset:0; z-index:0;
+  background-image:linear-gradient(rgba(108,76,241,0.06) 1px,transparent 1px),linear-gradient(90deg,rgba(108,76,241,0.06) 1px,transparent 1px);
+  background-size:36px 36px;
+  -webkit-mask-image:linear-gradient(to bottom,black 0%,transparent 100%);
+  mask-image:linear-gradient(to bottom,black 0%,transparent 100%);
+  pointer-events:none;
+}
+.bg-orb { position:fixed; border-radius:50%; filter:blur(70px); pointer-events:none; z-index:0; }
+.orb1 { width:400px; height:400px; background:rgba(108,76,241,0.08); top:-100px; right:-100px; }
+.orb2 { width:300px; height:300px; background:rgba(198,245,66,0.1); bottom:-80px; left:-80px; }
+
+/* HEADER */
+.header { position:relative; z-index:10; padding:20px 36px; display:flex; align-items:center; justify-content:space-between; }
+.logo { display:flex; align-items:center; gap:10px; text-decoration:none; }
+.logo-icon { width:38px; height:38px; border-radius:9px; background:var(--purple); display:flex; align-items:center; justify-content:center; transition:transform 0.2s; }
+.logo-icon:hover { transform:scale(1.08); }
+.logo-icon svg { width:18px; height:18px; fill:white; }
+.logo-divider { width:1px; height:24px; background:var(--border); }
+.logo-mark { display:flex; flex-direction:column; gap:1px; }
+.logo-ar { font-family:'ThmanyahSerif',serif; font-size:17px; color:var(--purple); line-height:1; }
+.logo-en { font-size:9px; color:var(--gray); letter-spacing:2.5px; line-height:1; }
+.back-link { font-size:13px; color:var(--gray); text-decoration:none; display:flex; align-items:center; gap:6px; transition:color 0.2s; }
+.back-link:hover { color:var(--purple); }
+
+/* MAIN */
+.main { flex:1; display:flex; align-items:center; justify-content:center; padding:20px 16px 40px; position:relative; z-index:10; }
+
+/* CARD */
+.card { background:#fff; border-radius:20px; padding:36px; width:100%; max-width:440px; border:0.5px solid rgba(108,76,241,0.12); box-shadow:0 8px 40px rgba(108,76,241,0.08); }
+
+/* TABS */
+.tabs { display:grid; grid-template-columns:1fr 1fr; background:var(--gray-light); border-radius:10px; padding:4px; margin-bottom:28px; gap:4px; }
+.tab { padding:9px; border-radius:8px; font-size:13px; font-family:'ThmanyahSans',sans-serif; color:var(--gray); border:none; background:transparent; cursor:pointer; transition:all 0.2s; text-align:center; }
+.tab.active { background:#fff; color:var(--purple); font-weight:600; box-shadow:0 1px 4px rgba(108,76,241,0.1); }
+
+/* TITLE */
+.card-title { font-family:'ThmanyahSerif',serif; font-size:22px; color:var(--black); margin-bottom:6px; }
+.card-sub { font-size:13px; color:var(--gray); margin-bottom:24px; line-height:1.6; }
+
+/* SOCIAL BTNS */
+.social-btns { display:flex; flex-direction:column; gap:10px; margin-bottom:20px; }
+.social-btn { display:flex; align-items:center; justify-content:center; gap:10px; padding:11px; border-radius:10px; border:1px solid #e0e0e0; background:#fff; font-size:13px; font-family:'ThmanyahSans',sans-serif; color:var(--black); cursor:pointer; transition:all 0.2s; }
+.social-btn:hover { border-color:var(--purple); background:var(--purple-light); transform:translateY(-1px); }
+.social-btn svg { width:18px; height:18px; flex-shrink:0; }
+
+/* DIVIDER */
+.divider { display:flex; align-items:center; gap:12px; margin-bottom:20px; }
+.divider-line { flex:1; height:1px; background:#ebebeb; }
+.divider-text { font-size:12px; color:#bbb; white-space:nowrap; }
+
+/* FORM */
+.form { display:flex; flex-direction:column; gap:14px; }
+.form-row { display:grid; grid-template-columns:1fr 1fr; gap:12px; }
+.field { display:flex; flex-direction:column; gap:6px; }
+.field label { font-size:12px; color:var(--gray); font-weight:500; }
+.field input {
+  padding:11px 14px; border-radius:9px;
+  border:1px solid #e0e0e0; font-size:13px;
+  font-family:'ThmanyahSans',sans-serif; color:var(--black);
+  background:#fff; outline:none; transition:border-color 0.2s, box-shadow 0.2s;
+  direction:rtl;
+}
+.field input:focus { border-color:var(--purple); box-shadow:0 0 0 3px rgba(108,76,241,0.08); }
+.field input::placeholder { color:#bbb; }
+
+/* PASSWORD STRENGTH */
+.strength-bar { height:3px; border-radius:2px; background:#ebebeb; margin-top:4px; overflow:hidden; }
+.strength-fill { height:100%; border-radius:2px; width:0%; transition:width 0.3s, background 0.3s; }
+
+/* SUBMIT */
+.submit-btn { background:var(--purple); color:#C6F542; padding:13px; border-radius:10px; font-size:14px; font-family:'ThmanyahSans',sans-serif; font-weight:600; border:none; cursor:pointer; transition:transform 0.2s, background 0.2s; margin-top:4px; width:100%; }
+.submit-btn:hover { transform:scale(1.02); background:var(--purple-dark); }
+
+/* FOOTER TEXT */
+.card-footer { font-size:12px; color:var(--gray); text-align:center; margin-top:16px; }
+.card-footer a { color:var(--purple); text-decoration:none; font-weight:500; }
+.card-footer a:hover { text-decoration:underline; }
+
+/* PANELS */
+.panel { display:none; }
+.panel.active { display:block; }
+
+/* AGE HINT */
+.age-hint { font-size:11px; color:#bbb; margin-top:3px; }
+
+/* ERROR */
+.field-error { font-size:11px; color:#e24b4a; display:none; margin-top:2px; }
+</style>
+</head>
+<body>
+
+<div class="bg-grid"></div>
+<div class="bg-orb orb1"></div>
+<div class="bg-orb orb2"></div>
+
+<!-- HEADER -->
+<header class="header">
+  <a href="index.html" class="logo">
+    <div class="logo-icon">
+      <svg viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
+    </div>
+    <div class="logo-divider"></div>
+    <div class="logo-mark">
+      <span class="logo-ar">نهج</span>
+      <span class="logo-en">NAHJ</span>
+    </div>
+  </a>
+  <a href="index.html" class="back-link">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M19 12H5M12 5l7 7-7 7"/></svg>
+    العودة للرئيسية
+  </a>
+</header>
+
+<!-- MAIN -->
+<main class="main">
+  <div class="card">
+
+    <!-- TABS -->
+    <div class="tabs">
+      <button class="tab active" onclick="switchTab('login')">تسجيل الدخول</button>
+      <button class="tab" onclick="switchTab('register')">حساب جديد</button>
+    </div>
+
+    <!-- LOGIN PANEL -->
+    <div class="panel active" id="panel-login">
+      <h1 class="card-title">أهلاً بعودتك 👋</h1>
+      <p class="card-sub">سجّل دخولك للمتابعة مع مساعدك الذكي</p>
+
+      <div class="social-btns">
+        <button class="social-btn">
+          <svg viewBox="0 0 24 24"><path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/><path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/><path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l3.66-2.84z"/><path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/></svg>
+          المتابعة عبر Google
+        </button>
+        <button class="social-btn">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/></svg>
+          المتابعة عبر Apple
+        </button>
+      </div>
+
+      <div class="divider">
+        <div class="divider-line"></div>
+        <span class="divider-text">أو عبر الإيميل</span>
+        <div class="divider-line"></div>
+      </div>
+
+      <div class="form">
+        <div class="field">
+          <label>الإيميل</label>
+          <input type="email" placeholder="example@email.com" />
+        </div>
+        <div class="field">
+          <label>كلمة المرور</label>
+          <input type="password" placeholder="••••••••" />
+        </div>
+        <button class="submit-btn">تسجيل الدخول</button>
+      </div>
+
+      <div class="card-footer">
+        نسيت كلمة المرور؟ <a href="#">استعادة</a>
+      </div>
+    </div>
+
+    <!-- REGISTER PANEL -->
+    <div class="panel" id="panel-register">
+      <h1 class="card-title">انضم إلى نهج ✨</h1>
+      <p class="card-sub">أنشئ حسابك وابدأ رحلة التعلم الذكي</p>
+
+      <div class="social-btns">
+        <button class="social-btn">
+          <svg viewBox="0 0 24 24"><path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/><path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/><path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l3.66-2.84z"/><path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/></svg>
+          التسجيل عبر Google
+        </button>
+        <button class="social-btn">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/></svg>
+          التسجيل عبر Apple
+        </button>
+      </div>
+
+      <div class="divider">
+        <div class="divider-line"></div>
+        <span class="divider-text">أو أنشئ حساباً</span>
+        <div class="divider-line"></div>
+      </div>
+
+      <div class="form">
+        <div class="form-row">
+          <div class="field">
+            <label>الاسم الكامل</label>
+            <input type="text" placeholder="محمد أحمد" />
+          </div>
+          <div class="field">
+            <label>العمر</label>
+            <input type="number" placeholder="18" min="8" max="99" id="age-input" />
+            <span class="age-hint">من 8 إلى 99 سنة</span>
+          </div>
+        </div>
+        <div class="field">
+          <label>الإيميل</label>
+          <input type="email" placeholder="example@email.com" />
+        </div>
+        <div class="field">
+          <label>كلمة المرور</label>
+          <input type="password" placeholder="••••••••" id="pass-input" oninput="checkStrength(this.value)" />
+          <div class="strength-bar"><div class="strength-fill" id="strength-fill"></div></div>
+        </div>
+        <div class="field">
+          <label>تأكيد كلمة المرور</label>
+          <input type="password" placeholder="••••••••" id="pass-confirm" />
+          <span class="field-error" id="pass-error">كلمتا المرور غير متطابقتين</span>
+        </div>
+        <button class="submit-btn" onclick="validateForm()">إنشاء الحساب</button>
+      </div>
+
+      <div class="card-footer">
+        بالتسجيل أنت توافق على <a href="#">شروط الاستخدام</a> و<a href="#">سياسة الخصوصية</a>
+      </div>
+    </div>
+
+  </div>
+</main>
+
+<script>
+function switchTab(tab) {
+  document.querySelectorAll('.tab').forEach((t,i) => t.classList.toggle('active', (i===0&&tab==='login')||(i===1&&tab==='register')));
+  document.getElementById('panel-login').classList.toggle('active', tab==='login');
+  document.getElementById('panel-register').classList.toggle('active', tab==='register');
+}
+
+function checkStrength(val) {
+  const fill = document.getElementById('strength-fill');
+  let score = 0;
+  if (val.length >= 8) score++;
+  if (/[A-Z]/.test(val)) score++;
+  if (/[0-9]/.test(val)) score++;
+  if (/[^A-Za-z0-9]/.test(val)) score++;
+  const pct = score * 25;
+  const colors = ['#e24b4a','#e24b4a','#EF9F27','#9DC918','#C6F542'];
+  fill.style.width = pct + '%';
+  fill.style.background = colors[score];
+}
+
+function validateForm() {
+  const p1 = document.getElementById('pass-input').value;
+  const p2 = document.getElementById('pass-confirm').value;
+  const err = document.getElementById('pass-error');
+  if (p1 !== p2 && p2 !== '') {
+    err.style.display = 'block';
+  } else {
+    err.style.display = 'none';
+  }
+}
+</script>
+</body>
+</html>
