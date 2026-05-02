@@ -1,0 +1,739 @@
+<!DOCTYPE html>
+<html dir="rtl" lang="ar">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>نهج | لوحة التقدم</title>
+<style>
+@font-face { font-family:'ThmanyahSerif'; src:url('thmanyahserifdisplay-Regular.otf') format('opentype'); }
+@font-face { font-family:'ThmanyahSans'; src:url('thmanyahsans-Regular.otf') format('opentype'); }
+* { margin:0; padding:0; box-sizing:border-box; }
+:root {
+  --purple:#6C4CF1; --purple-dark:#4F35C2; --purple-light:#EEE9FE;
+  --lime:#C6F542; --lime-dark:#9DC918;
+  --black:#1A1A1A; --gray:#555; --gray-light:#F5F5F5;
+  --border:rgba(108,76,241,0.15);
+}
+body { font-family:'ThmanyahSans',sans-serif; background:#FAFAF7; color:var(--black); direction:rtl; min-height:100vh; }
+h1,h2,h3 { font-family:'ThmanyahSerif',serif; }
+
+/* HEADER */
+.header { display:flex; align-items:center; justify-content:space-between; padding:12px 28px; background:#fff; border-bottom:0.5px solid var(--border); position:sticky; top:0; z-index:10; }
+.logo { display:flex; align-items:center; gap:10px; text-decoration:none; }
+.logo-icon { width:36px; height:36px; border-radius:9px; background:var(--purple); display:flex; align-items:center; justify-content:center; transition:transform 0.2s; }
+.logo-icon:hover { transform:scale(1.08); }
+.logo-icon svg { width:17px; height:17px; fill:white; }
+.logo-divider { width:1px; height:22px; background:var(--border); }
+.logo-mark { display:flex; flex-direction:column; gap:1px; }
+.logo-ar { font-family:'ThmanyahSerif',serif; font-size:17px; color:var(--purple); line-height:1; }
+.logo-en { font-size:9px; color:var(--gray); letter-spacing:2.5px; line-height:1; }
+.header-nav { display:flex; align-items:center; gap:12px; }
+.nav-link { font-size:13px; color:var(--gray); text-decoration:none; padding:7px 14px; border-radius:8px; transition:all 0.2s; }
+.nav-link:hover { background:var(--purple-light); color:var(--purple); }
+.nav-link.active { background:var(--purple-light); color:var(--purple); font-weight:500; }
+.chat-btn { background:var(--purple); color:var(--lime); padding:8px 16px; border-radius:8px; font-size:13px; text-decoration:none; font-weight:600; transition:transform 0.2s,background 0.2s; }
+.chat-btn:hover { transform:scale(1.04); background:var(--purple-dark); }
+.user-avatar { width:34px; height:34px; border-radius:50%; background:var(--black); display:flex; align-items:center; justify-content:center; cursor:pointer; }
+.user-avatar svg { width:16px; height:16px; }
+
+/* MAIN */
+.main { max-width:1100px; margin:0 auto; padding:32px 28px 60px; }
+
+/* HERO CARD */
+.hero-card { background:var(--black); border-radius:20px; padding:28px 32px; margin-bottom:24px; display:flex; align-items:center; gap:28px; position:relative; overflow:hidden; }
+.hero-card-bg { position:absolute; inset:0; background:linear-gradient(135deg,#1a1a2e 0%,var(--black) 60%); }
+.hero-card-orb { position:absolute; border-radius:50%; filter:blur(50px); }
+.hero-orb1 { width:200px; height:200px; background:rgba(108,76,241,0.3); top:-60px; left:-40px; }
+.hero-orb2 { width:150px; height:150px; background:rgba(198,245,66,0.15); bottom:-40px; right:10%; }
+.hero-avatar { width:72px; height:72px; border-radius:50%; background:var(--purple); display:flex; align-items:center; justify-content:center; flex-shrink:0; z-index:2; box-shadow:0 4px 20px rgba(108,76,241,0.4); }
+.hero-avatar svg { width:32px; height:32px; fill:white; }
+.hero-info { z-index:2; flex:1; }
+.hero-greeting { font-size:13px; color:rgba(255,255,255,0.5); margin-bottom:4px; }
+.hero-name { font-size:24px; color:#fff; margin-bottom:8px; }
+.hero-level { display:inline-flex; align-items:center; gap:6px; background:rgba(198,245,66,0.15); border:1px solid rgba(198,245,66,0.3); color:var(--lime); font-size:12px; padding:4px 12px; border-radius:20px; margin-bottom:12px; }
+.xp-bar-wrap { display:flex; align-items:center; gap:10px; }
+.xp-bar { flex:1; height:8px; background:rgba(255,255,255,0.1); border-radius:4px; overflow:hidden; max-width:300px; }
+.xp-fill { height:100%; border-radius:4px; background:linear-gradient(90deg,var(--purple),var(--lime)); transition:width 1s ease; }
+.xp-text { font-size:12px; color:rgba(255,255,255,0.6); white-space:nowrap; }
+.hero-stats { z-index:2; display:flex; flex-direction:column; gap:12px; align-items:flex-end; }
+.hero-stat { text-align:center; background:rgba(255,255,255,0.07); border-radius:12px; padding:12px 18px; border:1px solid rgba(255,255,255,0.1); }
+.hero-stat-num { font-size:24px; color:var(--lime); font-family:'ThmanyahSerif',serif; line-height:1; }
+.hero-stat-label { font-size:10px; color:rgba(255,255,255,0.5); margin-top:3px; }
+
+/* GRID */
+.grid-2 { display:grid; grid-template-columns:1fr 1fr; gap:20px; margin-bottom:20px; }
+.grid-3 { display:grid; grid-template-columns:1fr 1fr 1fr; gap:16px; margin-bottom:20px; }
+
+/* CARD */
+.card { background:#fff; border-radius:16px; padding:22px; border:0.5px solid rgba(108,76,241,0.1); }
+.card-title { font-size:16px; color:var(--black); margin-bottom:4px; }
+.card-sub { font-size:12px; color:var(--gray); margin-bottom:18px; }
+
+/* SUBJECTS */
+.subject-item { display:flex; align-items:center; gap:12px; padding:12px 0; border-bottom:0.5px solid #f0f0f0; }
+.subject-item:last-child { border-bottom:none; padding-bottom:0; }
+.subject-icon { width:40px; height:40px; border-radius:10px; display:flex; align-items:center; justify-content:center; font-size:18px; flex-shrink:0; }
+.subject-info { flex:1; }
+.subject-name { font-size:13px; color:var(--black); font-weight:500; margin-bottom:4px; }
+.subject-level { font-size:11px; color:var(--gray); }
+.subject-bar-wrap { flex:1; display:flex; align-items:center; gap:8px; }
+.subject-bar { flex:1; height:6px; background:#f0f0f0; border-radius:3px; overflow:hidden; }
+.subject-fill { height:100%; border-radius:3px; transition:width 1s ease; }
+.subject-pct { font-size:11px; color:var(--gray); width:30px; text-align:left; }
+
+/* PATH */
+.path-item { display:flex; align-items:flex-start; gap:14px; margin-bottom:16px; position:relative; }
+.path-item:not(:last-child)::after { content:''; position:absolute; right:19px; top:40px; width:2px; height:calc(100% - 10px); background:#f0f0f0; }
+.path-dot { width:40px; height:40px; border-radius:50%; display:flex; align-items:center; justify-content:center; flex-shrink:0; font-size:14px; border:2px solid #f0f0f0; background:#fff; z-index:1; transition:all 0.3s; }
+.path-dot.done { background:var(--purple); border-color:var(--purple); }
+.path-dot.done span { filter:brightness(10); }
+.path-dot.current { background:var(--lime); border-color:var(--lime-dark); box-shadow:0 0 0 4px rgba(198,245,66,0.2); }
+.path-dot.locked { opacity:0.4; }
+.path-info { flex:1; padding-top:8px; }
+.path-title { font-size:13px; color:var(--black); font-weight:500; margin-bottom:3px; }
+.path-title.done { color:var(--purple); }
+.path-title.locked { color:#bbb; }
+.path-desc { font-size:11px; color:var(--gray); }
+.path-xp { font-size:11px; color:var(--lime-dark); font-weight:600; }
+.path-btn { font-size:11px; padding:5px 12px; border-radius:20px; border:none; cursor:pointer; font-family:'ThmanyahSans',sans-serif; transition:all 0.2s; }
+.path-btn.start { background:var(--purple); color:var(--lime); }
+.path-btn.start:hover { background:var(--purple-dark); transform:scale(1.04); }
+.path-btn.review { background:var(--gray-light); color:var(--gray); }
+
+/* BADGES */
+.badges-grid { display:grid; grid-template-columns:repeat(4,1fr); gap:12px; }
+.badge-item { display:flex; flex-direction:column; align-items:center; gap:6px; }
+.badge-icon { width:52px; height:52px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:22px; transition:transform 0.2s; }
+.badge-icon:hover { transform:scale(1.1); }
+.badge-icon.earned { box-shadow:0 4px 12px rgba(108,76,241,0.2); }
+.badge-icon.locked { filter:grayscale(1); opacity:0.35; }
+.badge-name { font-size:10px; color:var(--gray); text-align:center; }
+
+/* ACTIVITY CHART */
+.activity-grid { display:flex; gap:4px; flex-wrap:wrap; }
+.activity-day { width:14px; height:14px; border-radius:3px; background:#f0f0f0; transition:background 0.2s; cursor:default; }
+.activity-day:hover { transform:scale(1.2); }
+.activity-day.level-1 { background:rgba(108,76,241,0.2); }
+.activity-day.level-2 { background:rgba(108,76,241,0.45); }
+.activity-day.level-3 { background:rgba(108,76,241,0.7); }
+.activity-day.level-4 { background:var(--purple); }
+.activity-labels { display:flex; justify-content:space-between; margin-top:8px; font-size:10px; color:#bbb; }
+
+/* STREAK */
+.streak-card { background:linear-gradient(135deg,var(--purple),var(--purple-dark)); border-radius:16px; padding:22px; color:#fff; }
+.streak-num { font-size:48px; color:var(--lime); font-family:'ThmanyahSerif',serif; line-height:1; }
+.streak-label { font-size:13px; color:rgba(255,255,255,0.7); margin-top:4px; margin-bottom:16px; }
+.streak-days { display:flex; gap:6px; }
+.streak-day { display:flex; flex-direction:column; align-items:center; gap:4px; }
+.streak-circle { width:28px; height:28px; border-radius:50%; background:rgba(255,255,255,0.15); display:flex; align-items:center; justify-content:center; font-size:11px; color:rgba(255,255,255,0.6); }
+.streak-circle.done { background:var(--lime); color:var(--black); font-weight:600; }
+.streak-circle.today { background:var(--lime); color:var(--black); box-shadow:0 0 0 3px rgba(198,245,66,0.3); }
+.streak-day-name { font-size:9px; color:rgba(255,255,255,0.4); }
+
+/* SECTION TITLE */
+.section-head { display:flex; align-items:center; justify-content:space-between; margin-bottom:16px; }
+.section-title { font-size:18px; color:var(--black); }
+.section-link { font-size:12px; color:var(--purple); text-decoration:none; cursor:pointer; }
+.section-link:hover { text-decoration:underline; }
+
+/* ── SIDEBAR ── */
+.overlay { position:fixed; inset:0; background:rgba(0,0,0,0.35); z-index:100; opacity:0; pointer-events:none; transition:opacity 0.3s; }
+.overlay.show { opacity:1; pointer-events:all; }
+
+.sidebar-panel { position:fixed; left:0; top:0; bottom:0; width:300px; background:#fff; z-index:101; transform:translateX(-100%); transition:transform 0.35s cubic-bezier(0.4,0,0.2,1); display:flex; flex-direction:column; box-shadow:4px 0 24px rgba(0,0,0,0.1); direction:rtl; }
+.sidebar-panel.show { transform:translateX(0); }
+
+.sidebar-user { padding:24px 20px 16px; background:linear-gradient(135deg,var(--purple),var(--purple-dark)); position:relative; overflow:hidden; }
+.sidebar-user-bg { position:absolute; width:120px; height:120px; border-radius:50%; background:rgba(255,255,255,0.06); top:-30px; left:-30px; }
+.sidebar-user-bg2 { position:absolute; width:80px; height:80px; border-radius:50%; background:rgba(198,245,66,0.08); bottom:-20px; right:20px; }
+.sidebar-avatar-wrap { position:relative; width:60px; height:60px; margin-bottom:12px; z-index:2; }
+.sidebar-avatar { width:60px; height:60px; border-radius:50%; background:rgba(255,255,255,0.15); display:flex; align-items:center; justify-content:center; border:2px solid rgba(255,255,255,0.3); cursor:pointer; transition:all 0.2s; }
+.sidebar-avatar:hover { background:rgba(255,255,255,0.25); }
+.sidebar-avatar svg { width:26px; height:26px; }
+
+.sidebar-name { font-size:14px; color:#fff; font-family:'ThmanyahSerif',serif; z-index:2; position:relative; }
+.sidebar-email { font-size:10px; color:rgba(255,255,255,0.6); margin-top:2px; z-index:2; position:relative; }
+.sidebar-xp-mini { display:flex; align-items:center; gap:8px; margin-top:10px; z-index:2; position:relative; }
+.sidebar-xp-bar { flex:1; height:4px; background:rgba(255,255,255,0.2); border-radius:2px; overflow:hidden; }
+.sidebar-xp-fill { height:100%; background:var(--lime); border-radius:2px; width:72%; }
+.sidebar-xp-label { font-size:10px; color:rgba(255,255,255,0.6); white-space:nowrap; }
+
+.sidebar-body { flex:1; overflow-y:auto; padding:8px 0; }
+.sidebar-body::-webkit-scrollbar { width:3px; }
+.sidebar-body::-webkit-scrollbar-thumb { background:var(--border); }
+
+.sidebar-section-label { padding:11px 20px 4px; font-size:9px; color:#bbb; letter-spacing:1.5px; }
+
+.sidebar-item { display:flex; align-items:center; gap:12px; padding:11px 20px; cursor:pointer; transition:background 0.2s; }
+.sidebar-item:hover { background:var(--gray-light); }
+.sidebar-item-icon { width:34px; height:34px; border-radius:9px; display:flex; align-items:center; justify-content:center; flex-shrink:0; } .sidebar-item-icon svg { width:16px; height:16px; }
+.sidebar-item-text { flex:1; }
+.sidebar-item-title { font-size:12px; color:var(--black); }
+.sidebar-item-sub { font-size:10px; color:#bbb; margin-top:1px; }
+.sidebar-item-arrow { font-size:11px; color:#ccc; }
+
+.sidebar-footer { padding:16px 20px; border-top:0.5px solid #f0f0f0; }
+.logout-btn { width:100%; display:flex; align-items:center; gap:10px; padding:11px 14px; border-radius:10px; border:1px solid #ffe0e0; background:#fff8f8; cursor:pointer; transition:all 0.2s; font-family:'ThmanyahSans',sans-serif; }
+.logout-btn:hover { background:#ffe0e0; }
+.logout-btn-icon { font-size:16px; }
+.logout-btn-text { font-size:13px; color:#e24b4a; font-weight:500; }
+
+/* ── POPUP ── */
+.popup-overlay { position:fixed; inset:0; background:rgba(0,0,0,0.4); z-index:200; display:flex; align-items:center; justify-content:center; opacity:0; pointer-events:none; transition:opacity 0.25s; }
+.popup-overlay.show { opacity:1; pointer-events:all; }
+.popup { background:#fff; border-radius:18px; width:90%; max-width:420px; padding:28px; transform:scale(0.95) translateY(10px); transition:transform 0.25s; }
+.popup-overlay.show .popup { transform:scale(1) translateY(0); }
+.popup-title { font-size:18px; color:var(--black); margin-bottom:6px; }
+.popup-sub { font-size:13px; color:var(--gray); margin-bottom:22px; }
+.popup-field { display:flex; flex-direction:column; gap:6px; margin-bottom:14px; }
+.popup-field label { font-size:12px; color:var(--gray); font-weight:500; }
+.popup-field input { padding:11px 14px; border-radius:9px; border:1px solid #e0e0e0; font-size:13px; font-family:'ThmanyahSans',sans-serif; color:var(--black); outline:none; direction:rtl; transition:border-color 0.2s; }
+.popup-field input:focus { border-color:var(--purple); box-shadow:0 0 0 3px rgba(108,76,241,0.08); }
+.popup-actions { display:flex; gap:10px; margin-top:6px; }
+.popup-save { flex:1; background:var(--purple); color:var(--lime); padding:11px; border-radius:9px; border:none; font-size:13px; font-weight:600; cursor:pointer; font-family:'ThmanyahSans',sans-serif; transition:all 0.2s; }
+.popup-save:hover { background:var(--purple-dark); transform:scale(1.02); }
+.popup-cancel { padding:11px 18px; border-radius:9px; border:1px solid #e0e0e0; background:#fff; font-size:13px; cursor:pointer; font-family:'ThmanyahSans',sans-serif; color:var(--gray); transition:all 0.2s; }
+.popup-cancel:hover { background:var(--gray-light); }
+.popup-close { position:absolute; top:16px; left:16px; width:28px; height:28px; border-radius:50%; background:var(--gray-light); display:flex; align-items:center; justify-content:center; cursor:pointer; font-size:14px; color:var(--gray); transition:all 0.2s; }
+.popup-close:hover { background:#e0e0e0; }
+.popup { position:relative; }
+
+/* upload avatar */
+.avatar-upload-area { border:2px dashed rgba(108,76,241,0.3); border-radius:12px; padding:24px; text-align:center; cursor:pointer; transition:all 0.2s; margin-bottom:14px; }
+.avatar-upload-area:hover { border-color:var(--purple); background:var(--purple-light); }
+.avatar-upload-icon { font-size:32px; margin-bottom:8px; }
+.avatar-upload-text { font-size:13px; color:var(--gray); }
+.avatar-upload-text span { color:var(--purple); font-weight:600; }
+
+/* toggle switch */
+.toggle-row { display:flex; align-items:center; justify-content:space-between; padding:10px 0; border-bottom:0.5px solid #f5f5f5; }
+.toggle-row:last-child { border-bottom:none; }
+.toggle-label { font-size:13px; color:var(--black); }
+.toggle-sub { font-size:11px; color:#bbb; margin-top:2px; }
+.toggle { width:40px; height:22px; border-radius:11px; background:#e0e0e0; position:relative; cursor:pointer; transition:background 0.2s; flex-shrink:0; }
+.toggle.on { background:var(--purple); }
+.toggle-knob { position:absolute; width:16px; height:16px; border-radius:50%; background:#fff; top:3px; right:3px; transition:transform 0.2s; box-shadow:0 1px 4px rgba(0,0,0,0.2); }
+.toggle.on .toggle-knob { transform:translateX(-18px); }
+
+/* plan badge */
+.plan-badge { display:inline-flex; align-items:center; gap:6px; background:var(--purple-light); color:var(--purple); font-size:12px; padding:4px 12px; border-radius:20px; margin-bottom:14px; }
+.upgrade-btn { width:100%; background:var(--lime); color:var(--black); padding:11px; border-radius:9px; border:none; font-size:13px; font-weight:600; cursor:pointer; font-family:'ThmanyahSans',sans-serif; transition:all 0.2s; }
+.upgrade-btn:hover { background:var(--lime-dark); transform:scale(1.02); }
+
+</style>
+</head>
+<body>
+
+<header class="header">
+  <a href="index.html" class="logo">
+    <div class="logo-icon"><svg viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg></div>
+    <div class="logo-divider"></div>
+    <div class="logo-mark">
+      <span class="logo-ar">نهج</span>
+      <span class="logo-en">NAHJ</span>
+    </div>
+  </a>
+  <div class="header-nav">
+    <a href="dashboard.html" class="nav-link active">📊 تقدمي</a>
+    <a href="chat.html" class="nav-link">💬 المساعد</a>
+    <a href="chat.html" class="chat-btn">ابدأ الدراسة ←</a>
+    <div class="user-avatar" onclick="openSidebar()" style="cursor:pointer;">
+      <svg viewBox="0 0 24 24" fill="none" stroke="#C6F542" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>
+    </div>
+  </div>
+</header>
+
+<main class="main">
+
+  <!-- HERO -->
+  <div class="hero-card">
+    <div class="hero-card-bg"></div>
+    <div class="hero-card-orb hero-orb1"></div>
+    <div class="hero-card-orb hero-orb2"></div>
+    <div class="hero-avatar">
+      <svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>
+    </div>
+    <div class="hero-info">
+      <div class="hero-greeting">أهلاً بعودتك 👋</div>
+      <h1 class="hero-name">الطالب</h1>
+      <div class="hero-level">⚡ المستوى 4 — متقدم</div>
+      <div class="xp-bar-wrap">
+        <div class="xp-bar"><div class="xp-fill" id="mainXpFill" style="width:72%"></div></div>
+        <span class="xp-text">720 / 1000 XP</span>
+      </div>
+    </div>
+    <div class="hero-stats">
+      <div class="hero-stat"><div class="hero-stat-num">12</div><div class="hero-stat-label">يوم متواصل 🔥</div></div>
+      <div class="hero-stat"><div class="hero-stat-num">8</div><div class="hero-stat-label">شارة مكتسبة 🏅</div></div>
+    </div>
+  </div>
+
+  <!-- ROW 1 -->
+  <div class="grid-2">
+
+    <!-- المواد -->
+    <div class="card">
+      <div class="section-head">
+        <div>
+          <h2 class="card-title">المواد الدراسية</h2>
+          <p class="card-sub">تقدمك في كل مادة</p>
+        </div>
+        <a class="section-link" href="chat.html">أضف مادة +</a>
+      </div>
+      <div class="subject-item">
+        <div class="subject-icon" style="background:#EEE9FE;">⚛️</div>
+        <div class="subject-info"><div class="subject-name">الفيزياء</div><div class="subject-level">ثانوي · المستوى 3</div></div>
+        <div class="subject-bar-wrap">
+          <div class="subject-bar"><div class="subject-fill" style="width:75%;background:var(--purple);"></div></div>
+          <span class="subject-pct">75%</span>
+        </div>
+      </div>
+      <div class="subject-item">
+        <div class="subject-icon" style="background:#f0ffd0;">📐</div>
+        <div class="subject-info"><div class="subject-name">الرياضيات</div><div class="subject-level">ثانوي · المستوى 2</div></div>
+        <div class="subject-bar-wrap">
+          <div class="subject-bar"><div class="subject-fill" style="width:58%;background:#9DC918;"></div></div>
+          <span class="subject-pct">58%</span>
+        </div>
+      </div>
+      <div class="subject-item">
+        <div class="subject-icon" style="background:#FFF3E0;">🧪</div>
+        <div class="subject-info"><div class="subject-name">الكيمياء</div><div class="subject-level">ثانوي · المستوى 1</div></div>
+        <div class="subject-bar-wrap">
+          <div class="subject-bar"><div class="subject-fill" style="width:32%;background:#F4A261;"></div></div>
+          <span class="subject-pct">32%</span>
+        </div>
+      </div>
+      <div class="subject-item">
+        <div class="subject-icon" style="background:#E8F4FD;">🌍</div>
+        <div class="subject-info"><div class="subject-name">اللغة الإنجليزية</div><div class="subject-level">متوسط · المستوى 4</div></div>
+        <div class="subject-bar-wrap">
+          <div class="subject-bar"><div class="subject-fill" style="width:88%;background:var(--purple);"></div></div>
+          <span class="subject-pct">88%</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- المسار التعليمي -->
+    <div class="card">
+      <div class="section-head">
+        <div>
+          <h2 class="card-title">مسارك في الفيزياء</h2>
+          <p class="card-sub">المستوى الثانوي</p>
+        </div>
+        <span class="section-link">تغيير المادة</span>
+      </div>
+      <div class="path-item">
+        <div class="path-dot done"><span>✓</span></div>
+        <div class="path-info">
+          <div class="path-title done">الفصل 1 — قوانين الحركة</div>
+          <div class="path-xp">+80 XP مكتسب</div>
+        </div>
+        <button class="path-btn review">مراجعة</button>
+      </div>
+      <div class="path-item">
+        <div class="path-dot done"><span>✓</span></div>
+        <div class="path-info">
+          <div class="path-title done">الفصل 2 — الطاقة والشغل</div>
+          <div class="path-xp">+75 XP مكتسب</div>
+        </div>
+        <button class="path-btn review">مراجعة</button>
+      </div>
+      <div class="path-item">
+        <div class="path-dot current">📍</div>
+        <div class="path-info">
+          <div class="path-title">الفصل 3 — الكهرباء</div>
+          <div class="path-desc">جارٍ الدراسة · 60% مكتمل</div>
+        </div>
+        <button class="path-btn start" onclick="location.href='chat.html'">متابعة</button>
+      </div>
+      <div class="path-item">
+        <div class="path-dot locked">🔒</div>
+        <div class="path-info">
+          <div class="path-title locked">الفصل 4 — الضوء والصوت</div>
+          <div class="path-desc">أكمل الفصل 3 أولاً</div>
+        </div>
+      </div>
+      <div class="path-item">
+        <div class="path-dot locked">🔒</div>
+        <div class="path-info">
+          <div class="path-title locked">الاختبار الشامل</div>
+          <div class="path-desc">+150 XP عند الاجتياز</div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- ROW 2 -->
+  <div class="grid-3">
+
+    <!-- الشارات -->
+    <div class="card">
+      <h2 class="card-title" style="margin-bottom:4px;">الشارات</h2>
+      <p class="card-sub">إنجازاتك المكتسبة</p>
+      <div class="badges-grid">
+        <div class="badge-item">
+          <div class="badge-icon earned" style="background:#EEE9FE;">🚀</div>
+          <div class="badge-name">البداية</div>
+        </div>
+        <div class="badge-item">
+          <div class="badge-icon earned" style="background:#f0ffd0;">🔥</div>
+          <div class="badge-name">10 أيام</div>
+        </div>
+        <div class="badge-item">
+          <div class="badge-icon earned" style="background:#FFF3E0;">⭐</div>
+          <div class="badge-name">100 XP</div>
+        </div>
+        <div class="badge-item">
+          <div class="badge-icon earned" style="background:#EEE9FE;">🧠</div>
+          <div class="badge-name">أول اختبار</div>
+        </div>
+        <div class="badge-item">
+          <div class="badge-icon earned" style="background:#f0ffd0;">📚</div>
+          <div class="badge-name">ملخص كتاب</div>
+        </div>
+        <div class="badge-item">
+          <div class="badge-icon earned" style="background:#E8F4FD;">💬</div>
+          <div class="badge-name">50 محادثة</div>
+        </div>
+        <div class="badge-item">
+          <div class="badge-icon locked" style="background:#f0f0f0;">🏆</div>
+          <div class="badge-name">المستوى 5</div>
+        </div>
+        <div class="badge-item">
+          <div class="badge-icon locked" style="background:#f0f0f0;">💎</div>
+          <div class="badge-name">30 يوم</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- السلسلة اليومية -->
+    <div class="streak-card">
+      <div class="streak-num">12</div>
+      <div class="streak-label">يوم متواصل 🔥</div>
+      <div class="streak-days">
+        <div class="streak-day">
+          <div class="streak-circle done">✓</div>
+          <div class="streak-day-name">سبت</div>
+        </div>
+        <div class="streak-day">
+          <div class="streak-circle done">✓</div>
+          <div class="streak-day-name">أحد</div>
+        </div>
+        <div class="streak-day">
+          <div class="streak-circle done">✓</div>
+          <div class="streak-day-name">اثن</div>
+        </div>
+        <div class="streak-day">
+          <div class="streak-circle done">✓</div>
+          <div class="streak-day-name">ثلا</div>
+        </div>
+        <div class="streak-day">
+          <div class="streak-circle done">✓</div>
+          <div class="streak-day-name">أرب</div>
+        </div>
+        <div class="streak-day">
+          <div class="streak-circle done">✓</div>
+          <div class="streak-day-name">خمس</div>
+        </div>
+        <div class="streak-day">
+          <div class="streak-circle today">✓</div>
+          <div class="streak-day-name">جمع</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- إحصائيات سريعة -->
+    <div class="card">
+      <h2 class="card-title" style="margin-bottom:4px;">إحصائيات</h2>
+      <p class="card-sub">هذا الأسبوع</p>
+      <div style="display:flex;flex-direction:column;gap:14px;margin-top:4px;">
+        <div style="display:flex;align-items:center;justify-content:space-between;">
+          <div style="display:flex;align-items:center;gap:8px;">
+            <div style="width:32px;height:32px;border-radius:8px;background:var(--purple-light);display:flex;align-items:center;justify-content:center;font-size:14px;">💬</div>
+            <span style="font-size:13px;color:var(--gray);">محادثات</span>
+          </div>
+          <span style="font-size:16px;font-weight:600;color:var(--purple);font-family:'ThmanyahSerif',serif;">24</span>
+        </div>
+        <div style="display:flex;align-items:center;justify-content:space-between;">
+          <div style="display:flex;align-items:center;gap:8px;">
+            <div style="width:32px;height:32px;border-radius:8px;background:#f0ffd0;display:flex;align-items:center;justify-content:center;font-size:14px;">📝</div>
+            <span style="font-size:13px;color:var(--gray);">اختبارات</span>
+          </div>
+          <span style="font-size:16px;font-weight:600;color:#5a8a00;font-family:'ThmanyahSerif',serif;">7</span>
+        </div>
+        <div style="display:flex;align-items:center;justify-content:space-between;">
+          <div style="display:flex;align-items:center;gap:8px;">
+            <div style="width:32px;height:32px;border-radius:8px;background:#FFF3E0;display:flex;align-items:center;justify-content:center;font-size:14px;">⚡</div>
+            <span style="font-size:13px;color:var(--gray);">XP مكتسب</span>
+          </div>
+          <span style="font-size:16px;font-weight:600;color:#E07B27;font-family:'ThmanyahSerif',serif;">340</span>
+        </div>
+        <div style="display:flex;align-items:center;justify-content:space-between;">
+          <div style="display:flex;align-items:center;gap:8px;">
+            <div style="width:32px;height:32px;border-radius:8px;background:#E8F4FD;display:flex;align-items:center;justify-content:center;font-size:14px;">📚</div>
+            <span style="font-size:13px;color:var(--gray);">ملخصات</span>
+          </div>
+          <span style="font-size:16px;font-weight:600;color:#2980B9;font-family:'ThmanyahSerif',serif;">3</span>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- نشاط الأسبوع -->
+  <div class="card">
+    <div class="section-head">
+      <div>
+        <h2 class="card-title">النشاط الأسبوعي</h2>
+        <p class="card-sub">أيام الدراسة خلال الأشهر الماضية</p>
+      </div>
+    </div>
+    <div class="activity-grid" id="activityGrid"></div>
+    <div class="activity-labels">
+      <span>أكثر من شهرين</span>
+      <span>شهر</span>
+      <span>هذا الأسبوع</span>
+    </div>
+  </div>
+
+</main>
+
+<script>
+// توليد شبكة النشاط
+const grid = document.getElementById('activityGrid');
+const levels = [0,0,1,0,2,1,0,0,1,2,3,2,1,0,0,0,2,3,4,2,1,0,0,1,2,3,3,2,1,0,0,2,3,4,3,2,0,0,1,2,3,4,3,1,0,0,2,3,4,4,3,2,0,0,3,4,4,3,2,1,0,0,2,3,4,4,3,2,0,0,3,4,4,3,2,1,0,0,2,3,4,4,3,2];
+levels.forEach(l => {
+  const d = document.createElement('div');
+  d.className = 'activity-day' + (l>0?' level-'+l:'');
+  grid.appendChild(d);
+});
+</script>
+
+
+<!-- OVERLAY -->
+<div class="overlay" id="overlay" onclick="closeSidebar()"></div>
+
+<div class="sidebar-panel" id="sidebarPanel">
+  <div class="sidebar-user">
+    <div class="sidebar-user-bg"></div>
+    <div class="sidebar-user-bg2"></div>
+    <div class="sidebar-avatar-wrap">
+      <div class="sidebar-avatar">
+        <svg viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.85)" stroke-width="1.8" stroke-linecap="round"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>
+      </div>
+    </div>
+    <div class="sidebar-name">الطالب</div>
+    <div class="sidebar-email">student@example.com</div>
+    <div class="sidebar-xp-mini">
+      <div class="sidebar-xp-bar"><div class="sidebar-xp-fill"></div></div>
+      <span class="sidebar-xp-label">720 / 1000 XP</span>
+    </div>
+  </div>
+
+  <div class="sidebar-body">
+    <div class="sidebar-section-label">الحساب</div>
+    <div class="sidebar-item" onclick="openPopup(&apos;profile&apos;)">
+      <div class="sidebar-item-icon" style="background:#EEE9FE;">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#6C4CF1" stroke-width="1.8" stroke-linecap="round"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>
+      </div>
+      <div class="sidebar-item-text">
+        <div class="sidebar-item-title">معلومات المستخدم</div>
+        <div class="sidebar-item-sub">الاسم والعمر والصورة</div>
+      </div>
+      <div class="sidebar-item-arrow">›</div>
+    </div>
+    <div class="sidebar-item" onclick="openPopup(&apos;password&apos;)">
+      <div class="sidebar-item-icon" style="background:#E8F4FD;">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#2980B9" stroke-width="1.8" stroke-linecap="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg>
+      </div>
+      <div class="sidebar-item-text">
+        <div class="sidebar-item-title">كلمة المرور</div>
+        <div class="sidebar-item-sub">تغيير كلمة المرور</div>
+      </div>
+      <div class="sidebar-item-arrow">›</div>
+    </div>
+
+    <div class="sidebar-section-label">التطبيق</div>
+    <div class="sidebar-item" onclick="openPopup(&apos;settings&apos;)">
+      <div class="sidebar-item-icon" style="background:#EEE9FE;">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#6C4CF1" stroke-width="1.8" stroke-linecap="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-4 0v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83-2.83l.06-.06A1.65 1.65 0 004.68 15a1.65 1.65 0 00-1.51-1H3a2 2 0 010-4h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 012.83-2.83l.06.06A1.65 1.65 0 009 4.68a1.65 1.65 0 001-1.51V3a2 2 0 014 0v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 2.83l-.06.06A1.65 1.65 0 0019.4 9a1.65 1.65 0 001.51 1H21a2 2 0 010 4h-.09a1.65 1.65 0 00-1.51 1z"/></svg>
+      </div>
+      <div class="sidebar-item-text">
+        <div class="sidebar-item-title">الإعدادات</div>
+        <div class="sidebar-item-sub">اللغة والإشعارات والمظهر</div>
+      </div>
+      <div class="sidebar-item-arrow">›</div>
+    </div>
+    <div class="sidebar-item" onclick="openPopup(&apos;plan&apos;)">
+      <div class="sidebar-item-icon" style="background:#f0ffd0;">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#5a8a00" stroke-width="1.8" stroke-linecap="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+      </div>
+      <div class="sidebar-item-text">
+        <div class="sidebar-item-title">الاشتراك</div>
+        <div class="sidebar-item-sub">الخطة المجانية</div>
+      </div>
+      <div class="sidebar-item-arrow">›</div>
+    </div>
+
+    <div class="sidebar-section-label">الدعم</div>
+    <div class="sidebar-item" onclick="openPopup(&apos;help&apos;)">
+      <div class="sidebar-item-icon" style="background:#FFF3E0;">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#E07B27" stroke-width="1.8" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 015.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+      </div>
+      <div class="sidebar-item-text">
+        <div class="sidebar-item-title">المساعدة</div>
+        <div class="sidebar-item-sub">الأسئلة الشائعة والدعم</div>
+      </div>
+      <div class="sidebar-item-arrow">›</div>
+    </div>
+    <div class="sidebar-item" onclick="openPopup(&apos;report&apos;)">
+      <div class="sidebar-item-icon" style="background:#fff8f8;">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#e24b4a" stroke-width="1.8" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+      </div>
+      <div class="sidebar-item-text">
+        <div class="sidebar-item-title">تبليغ عن مشكلة</div>
+        <div class="sidebar-item-sub">أخبرنا بأي مشكلة تواجهها</div>
+      </div>
+      <div class="sidebar-item-arrow">›</div>
+    </div>
+  </div>
+
+  <div class="sidebar-footer">
+    <button class="logout-btn" onclick="confirmLogout()">
+      <span class="logout-btn-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#e24b4a" stroke-width="1.8" stroke-linecap="round" style="width:16px;height:16px;"><path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+      </span>
+      <span class="logout-btn-text">تسجيل الخروج</span>
+    </button>
+  </div>
+</div>
+
+<!-- معلومات المستخدم -->
+<div class="popup-overlay" id="popup-profile">
+  <div class="popup">
+    <div class="popup-close" onclick="closePopup(&apos;profile&apos;)">✕</div>
+    <h2 class="popup-title">معلومات المستخدم</h2>
+    <p class="popup-sub">تعديل بياناتك الشخصية</p>
+    <div class="avatar-upload-area" onclick="document.getElementById(&apos;avatarInput&apos;).click()">
+      <div class="avatar-upload-icon">🖼️</div>
+      <div class="avatar-upload-text">اضغط لتغيير <span>الصورة الشخصية</span></div>
+      <input type="file" id="avatarInput" accept="image/*" style="display:none" />
+    </div>
+    <div class="popup-field"><label>الاسم الكامل</label><input type="text" value="الطالب" /></div>
+    <div class="popup-field"><label>العمر</label><input type="number" value="18" min="8" max="99" /></div>
+    <div class="popup-actions">
+      <button class="popup-save" onclick="closePopup(&apos;profile&apos;)">حفظ التغييرات</button>
+      <button class="popup-cancel" onclick="closePopup(&apos;profile&apos;)">إلغاء</button>
+    </div>
+  </div>
+</div>
+
+<!-- كلمة المرور -->
+<div class="popup-overlay" id="popup-password">
+  <div class="popup">
+    <div class="popup-close" onclick="closePopup(&apos;password&apos;)">✕</div>
+    <h2 class="popup-title">تغيير كلمة المرور</h2>
+    <p class="popup-sub">أدخل كلمة المرور الجديدة</p>
+    <div class="popup-field"><label>كلمة المرور الحالية</label><input type="password" placeholder="••••••••" /></div>
+    <div class="popup-field"><label>كلمة المرور الجديدة</label><input type="password" placeholder="••••••••" /></div>
+    <div class="popup-field"><label>تأكيد كلمة المرور</label><input type="password" placeholder="••••••••" /></div>
+    <div class="popup-actions">
+      <button class="popup-save" onclick="closePopup(&apos;password&apos;)">تغيير كلمة المرور</button>
+      <button class="popup-cancel" onclick="closePopup(&apos;password&apos;)">إلغاء</button>
+    </div>
+  </div>
+</div>
+
+<!-- إعدادات -->
+<div class="popup-overlay" id="popup-settings">
+  <div class="popup">
+    <div class="popup-close" onclick="closePopup(&apos;settings&apos;)">✕</div>
+    <h2 class="popup-title">الإعدادات</h2>
+    <p class="popup-sub">خصّص تجربتك في نهج</p>
+    <div class="toggle-row"><div><div class="toggle-label">الإشعارات</div><div class="toggle-sub">تلقي تنبيهات الدراسة</div></div><div class="toggle on" onclick="this.classList.toggle(&apos;on&apos;)"><div class="toggle-knob"></div></div></div>
+    <div class="toggle-row"><div><div class="toggle-label">المظهر الداكن</div><div class="toggle-sub">تفعيل الوضع الليلي</div></div><div class="toggle" onclick="this.classList.toggle(&apos;on&apos;)"><div class="toggle-knob"></div></div></div>
+    <div class="toggle-row"><div><div class="toggle-label">اللغة الإنجليزية</div><div class="toggle-sub">عرض الواجهة بالإنجليزية</div></div><div class="toggle" onclick="this.classList.toggle(&apos;on&apos;)"><div class="toggle-knob"></div></div></div>
+    <div class="toggle-row"><div><div class="toggle-label">تذكيرات يومية</div><div class="toggle-sub">تذكير بالدراسة يومياً</div></div><div class="toggle on" onclick="this.classList.toggle(&apos;on&apos;)"><div class="toggle-knob"></div></div></div>
+    <div class="popup-actions" style="margin-top:16px;">
+      <button class="popup-save" onclick="closePopup(&apos;settings&apos;)">حفظ الإعدادات</button>
+      <button class="popup-cancel" onclick="closePopup(&apos;settings&apos;)">إلغاء</button>
+    </div>
+  </div>
+</div>
+
+<!-- اشتراك -->
+<div class="popup-overlay" id="popup-plan">
+  <div class="popup">
+    <div class="popup-close" onclick="closePopup(&apos;plan&apos;)">✕</div>
+    <h2 class="popup-title">الاشتراك</h2>
+    <p class="popup-sub">خطتك الحالية وخيارات الترقية</p>
+    <div class="plan-badge">⭐ الخطة المجانية — نشطة</div>
+    <p style="font-size:12px;color:var(--gray);margin-bottom:16px;line-height:1.7;">الخطة المجانية تتيح لك 10 محادثات شهرياً. قم بالترقية للحصول على محادثات غير محدودة واختبارات تلقائية وتتبع تقدم تفصيلي.</p>
+    <button class="upgrade-btn" onclick="closePopup(&apos;plan&apos;)">⚡ ترقية للاحترافية — 29 ريال/شهر</button>
+    <div style="text-align:center;margin-top:12px;"><span style="font-size:11px;color:#bbb;cursor:pointer;" onclick="closePopup(&apos;plan&apos;)">إلغاء</span></div>
+  </div>
+</div>
+
+<!-- مساعدة -->
+<div class="popup-overlay" id="popup-help">
+  <div class="popup">
+    <div class="popup-close" onclick="closePopup(&apos;help&apos;)">✕</div>
+    <h2 class="popup-title">المساعدة</h2>
+    <p class="popup-sub">كيف يمكننا مساعدتك؟</p>
+    <div style="display:flex;flex-direction:column;gap:10px;margin-bottom:18px;">
+      <div style="padding:12px;border-radius:10px;background:var(--gray-light);cursor:pointer;"><div style="font-size:13px;color:var(--black);font-weight:500;">📖 دليل الاستخدام</div><div style="font-size:11px;color:var(--gray);margin-top:2px;">تعلم كيف تستخدم نهج بشكل كامل</div></div>
+      <div style="padding:12px;border-radius:10px;background:var(--gray-light);cursor:pointer;"><div style="font-size:13px;color:var(--black);font-weight:500;">❓ الأسئلة الشائعة</div><div style="font-size:11px;color:var(--gray);margin-top:2px;">إجابات على أكثر الأسئلة شيوعاً</div></div>
+      <div style="padding:12px;border-radius:10px;background:var(--gray-light);cursor:pointer;"><div style="font-size:13px;color:var(--black);font-weight:500;">💬 تواصل معنا</div><div style="font-size:11px;color:var(--gray);margin-top:2px;">تحدث مع فريق الدعم مباشرة</div></div>
+    </div>
+    <button class="popup-cancel" style="width:100%;" onclick="closePopup(&apos;help&apos;)">إغلاق</button>
+  </div>
+</div>
+
+<!-- تبليغ -->
+<div class="popup-overlay" id="popup-report">
+  <div class="popup">
+    <div class="popup-close" onclick="closePopup(&apos;report&apos;)">✕</div>
+    <h2 class="popup-title">تبليغ عن مشكلة</h2>
+    <p class="popup-sub">ساعدنا في تحسين نهج</p>
+    <div class="popup-field">
+      <label>نوع المشكلة</label>
+      <select style="padding:11px 14px;border-radius:9px;border:1px solid #e0e0e0;font-size:13px;font-family:&apos;ThmanyahSans&apos;,sans-serif;color:var(--black);outline:none;direction:rtl;width:100%;background:#fff;">
+        <option>خطأ تقني</option><option>مشكلة في المحتوى</option><option>مشكلة في الأداء</option><option>اقتراح تحسين</option><option>أخرى</option>
+      </select>
+    </div>
+    <div class="popup-field">
+      <label>وصف المشكلة</label>
+      <textarea style="padding:11px 14px;border-radius:9px;border:1px solid #e0e0e0;font-size:13px;font-family:&apos;ThmanyahSans&apos;,sans-serif;color:var(--black);outline:none;direction:rtl;width:100%;min-height:90px;resize:none;" placeholder="اشرح المشكلة التي واجهتها..."></textarea>
+    </div>
+    <div class="popup-actions">
+      <button class="popup-save" onclick="closePopup(&apos;report&apos;)">إرسال التبليغ</button>
+      <button class="popup-cancel" onclick="closePopup(&apos;report&apos;)">إلغاء</button>
+    </div>
+  </div>
+</div>
+
+<!-- تأكيد تسجيل الخروج -->
+<div class="popup-overlay" id="popup-logout">
+  <div class="popup">
+    <div class="popup-close" onclick="closePopup(&apos;logout&apos;)">✕</div>
+    <h2 class="popup-title">تسجيل الخروج</h2>
+    <p class="popup-sub">هل أنت متأكد أنك تريد تسجيل الخروج من نهج؟</p>
+    <div class="popup-actions">
+      <button class="popup-save" style="background:#e24b4a;" onclick="location.href=&apos;auth.html&apos;">نعم، تسجيل الخروج</button>
+      <button class="popup-cancel" onclick="closePopup(&apos;logout&apos;)">إلغاء</button>
+    </div>
+  </div>
+</div>
+
+<script>
+function openSidebar(){document.getElementById('sidebarPanel').classList.add('show');document.getElementById('overlay').classList.add('show');document.body.style.overflow='hidden';}
+function closeSidebar(){document.getElementById('sidebarPanel').classList.remove('show');document.getElementById('overlay').classList.remove('show');document.body.style.overflow='';}
+function openPopup(type){closeSidebar();setTimeout(()=>{document.getElementById('popup-'+type).classList.add('show');},200);}
+function closePopup(type){document.getElementById('popup-'+type).classList.remove('show');}
+function confirmLogout(){closeSidebar();setTimeout(()=>openPopup('logout'),200);}
+document.querySelectorAll('.popup-overlay').forEach(el=>{el.addEventListener('click',function(e){if(e.target===this)this.classList.remove('show');});});
+</script>
+</body>
+</html>
