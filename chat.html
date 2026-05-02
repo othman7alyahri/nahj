@@ -1,0 +1,1009 @@
+<!DOCTYPE html>
+<html dir="rtl" lang="ar">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>نهج | المساعد الذكي</title>
+<style>
+@font-face { font-family:'ThmanyahSerif'; src:url('thmanyahserifdisplay-Regular.otf') format('opentype'); }
+@font-face { font-family:'ThmanyahSans'; src:url('thmanyahsans-Regular.otf') format('opentype'); }
+* { margin:0; padding:0; box-sizing:border-box; }
+:root {
+  --purple:#6C4CF1; --purple-dark:#4F35C2; --purple-light:#EEE9FE;
+  --lime:#C6F542; --lime-dark:#9DC918;
+  --black:#1A1A1A; --gray:#555; --gray-light:#F5F5F5;
+  --border:rgba(108,76,241,0.15);
+}
+html,body { height:100%; }
+body { font-family:'ThmanyahSans',sans-serif; background:#FAFAF7; color:var(--black); direction:rtl; display:flex; flex-direction:column; height:100vh; overflow:hidden; }
+h1,h2,h3 { font-family:'ThmanyahSerif',serif; }
+
+/* HEADER */
+.header { display:flex; align-items:center; justify-content:space-between; padding:12px 24px; background:#fff; border-bottom:0.5px solid var(--border); flex-shrink:0; z-index:10; }
+.logo { display:flex; align-items:center; gap:10px; text-decoration:none; }
+.logo-icon { width:36px; height:36px; border-radius:9px; background:var(--purple); display:flex; align-items:center; justify-content:center; transition:transform 0.2s; }
+.logo-icon:hover { transform:scale(1.08); }
+.logo-icon svg { width:17px; height:17px; fill:white; }
+.logo-divider { width:1px; height:22px; background:var(--border); }
+.logo-mark { display:flex; flex-direction:column; gap:1px; }
+.logo-ar { font-family:'ThmanyahSerif',serif; font-size:17px; color:var(--purple); line-height:1; }
+.logo-en { font-size:9px; color:var(--gray); letter-spacing:2.5px; line-height:1; }
+.user-avatar { width:34px; height:34px; border-radius:50%; background:var(--black); display:flex; align-items:center; justify-content:center; cursor:pointer; transition:transform 0.2s; }
+.user-avatar:hover { transform:scale(1.08); }
+.user-avatar svg { width:16px; height:16px; }
+
+/* BODY */
+.body { flex:1; display:flex; overflow:hidden; position:relative; }
+
+/* WELCOME */
+.welcome { position:absolute; inset:0; display:flex; flex-direction:column; align-items:center; justify-content:center; padding:40px 24px; text-align:center; background:#FAFAF7; transition:opacity 0.4s,transform 0.4s; z-index:5; overflow:hidden; }
+.welcome.hidden { opacity:0; transform:translateY(-16px); pointer-events:none; }
+.welcome-grid { position:absolute; inset:0; background-image:linear-gradient(rgba(108,76,241,0.06) 1px,transparent 1px),linear-gradient(90deg,rgba(108,76,241,0.06) 1px,transparent 1px); background-size:36px 36px; -webkit-mask-image:linear-gradient(to bottom,black 40%,transparent 100%); mask-image:linear-gradient(to bottom,black 40%,transparent 100%); }
+.worb { position:absolute; border-radius:50%; filter:blur(60px); pointer-events:none; }
+.worb1 { width:300px; height:300px; background:rgba(108,76,241,0.07); top:-80px; right:-60px; }
+.worb2 { width:200px; height:200px; background:rgba(198,245,66,0.1); bottom:0; left:-40px; }
+.welcome-content { position:relative; z-index:2; max-width:620px; width:100%; }
+.welcome-avatar { width:64px; height:64px; border-radius:50%; background:var(--purple); display:flex; align-items:center; justify-content:center; margin:0 auto 20px; box-shadow:0 4px 20px rgba(108,76,241,0.25); }
+.welcome-avatar svg { width:28px; height:28px; fill:white; }
+.welcome-title { font-size:28px; color:var(--black); margin-bottom:8px; }
+.welcome-sub { font-size:14px; color:var(--gray); margin-bottom:28px; line-height:1.7; }
+
+/* WELCOME INPUT */
+.welcome-input-wrap { background:#fff; border:1.5px solid rgba(108,76,241,0.25); border-radius:14px; padding:6px 6px 6px 12px; display:flex; align-items:flex-end; gap:10px; box-shadow:0 4px 20px rgba(108,76,241,0.08); transition:border-color 0.3s,box-shadow 0.3s; margin-bottom:14px; }
+.welcome-input-wrap:focus-within { border-color:var(--purple); box-shadow:0 4px 24px rgba(108,76,241,0.15); }
+
+/* UPLOAD BOX — يستبدل خانة الكتابة */
+.upload-box { background:#fff; border:1.5px dashed rgba(108,76,241,0.35); border-radius:14px; padding:24px; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:10px; margin-bottom:14px; cursor:pointer; transition:all 0.3s; min-height:110px; }
+.upload-box:hover { border-color:var(--purple); background:var(--purple-light); }
+.upload-box.has-file { border-style:solid; border-color:var(--purple); background:var(--purple-light); }
+.upload-icon { font-size:28px; }
+.upload-text { font-size:13px; color:var(--gray); }
+.upload-text span { color:var(--purple); font-weight:600; }
+.upload-filename { font-size:12px; color:var(--purple); font-weight:500; background:#fff; padding:4px 12px; border-radius:20px; border:1px solid var(--border); }
+.upload-hint { font-size:11px; color:#bbb; }
+input[type=file] { display:none; }
+
+/* PROJECT BOX */
+.project-box { background:#fff; border:1.5px solid rgba(108,76,241,0.25); border-radius:14px; padding:20px; margin-bottom:14px; text-align:right; }
+.project-label { font-size:13px; color:var(--gray); margin-bottom:8px; }
+.project-input { width:100%; border:1px solid #e0e0e0; border-radius:9px; padding:10px 14px; font-size:14px; font-family:'ThmanyahSans',sans-serif; color:var(--black); outline:none; direction:rtl; transition:border-color 0.2s; }
+.project-input:focus { border-color:var(--purple); }
+.project-input::placeholder { color:#bbb; }
+
+/* XP PROGRESS BOX */
+.xp-box { background:#fff; border:1.5px solid rgba(108,76,241,0.2); border-radius:14px; padding:20px; margin-bottom:14px; }
+.xp-title { font-size:14px; color:var(--black); font-weight:500; margin-bottom:14px; text-align:right; }
+.xp-input-row { display:flex; gap:10px; margin-bottom:12px; }
+.xp-input { flex:1; border:1px solid #e0e0e0; border-radius:9px; padding:10px 14px; font-size:13px; font-family:'ThmanyahSans',sans-serif; color:var(--black); outline:none; direction:rtl; transition:border-color 0.2s; }
+.xp-input:focus { border-color:var(--purple); }
+.xp-input::placeholder { color:#bbb; }
+.level-btns { display:flex; gap:8px; flex-wrap:wrap; }
+.level-btn { padding:7px 14px; border-radius:20px; font-size:12px; border:1px solid #e0e0e0; background:#fff; color:var(--gray); cursor:pointer; transition:all 0.2s; font-family:'ThmanyahSans',sans-serif; }
+.level-btn.selected { background:var(--purple); color:var(--lime); border-color:var(--purple); }
+.level-btn:hover { border-color:var(--purple); color:var(--purple); }
+
+.welcome-input-wrap textarea { flex:1; border:none; outline:none; resize:none; font-family:'ThmanyahSans',sans-serif; font-size:14px; color:var(--black); background:transparent; padding:10px 6px; min-height:52px; line-height:1.7; direction:rtl; }
+.welcome-input-wrap textarea::placeholder { color:#bbb; }
+.welcome-send { background:var(--purple); color:var(--lime); border:none; border-radius:10px; padding:12px 20px; font-size:13px; cursor:pointer; font-family:'ThmanyahSans',sans-serif; font-weight:600; white-space:nowrap; margin-bottom:2px; transition:transform 0.2s,background 0.2s; }
+.welcome-send:hover { transform:scale(1.05); background:var(--purple-dark); }
+.welcome-send:disabled { opacity:0.4; cursor:not-allowed; transform:none; }
+
+.suggestions { display:flex; flex-wrap:wrap; gap:8px; justify-content:center; }
+.suggestion-pill { background:#fff; border:1px solid rgba(108,76,241,0.18); color:var(--black); font-size:12px; padding:8px 16px; border-radius:24px; cursor:pointer; transition:all 0.2s; box-shadow:0 1px 4px rgba(0,0,0,0.04); font-family:'ThmanyahSans',sans-serif; }
+.suggestion-pill:hover { background:var(--purple); color:var(--lime); border-color:var(--purple); transform:translateY(-2px); }
+.suggestion-pill.active { background:var(--purple); color:var(--lime); border-color:var(--purple); }
+
+/* BACK LINK */
+.back-to-welcome { font-size:12px; color:var(--gray); cursor:pointer; margin-bottom:10px; display:inline-flex; align-items:center; gap:4px; transition:color 0.2s; }
+.back-to-welcome:hover { color:var(--purple); }
+
+/* CHAT LAYOUT */
+.chat-layout { position:absolute; inset:0; display:flex; opacity:0; pointer-events:none; transition:opacity 0.4s; }
+.chat-layout.visible { opacity:1; pointer-events:all; }
+
+/* SIDEBAR */
+.sidebar { width:260px; background:#fff; border-left:0.5px solid var(--border); display:flex; flex-direction:column; flex-shrink:0; }
+.sidebar-header { padding:14px 16px; border-bottom:0.5px solid var(--border); display:flex; gap:8px; }
+.new-chat-btn { flex:1; display:flex; align-items:center; gap:6px; justify-content:center; background:var(--purple); color:var(--lime); padding:10px; border-radius:9px; font-size:13px; border:none; cursor:pointer; font-family:'ThmanyahSans',sans-serif; font-weight:600; transition:transform 0.2s,background 0.2s; }
+.new-chat-btn:hover { background:var(--purple-dark); transform:scale(1.02); }
+.new-chat-btn svg { width:14px; height:14px; fill:var(--lime); }
+.home-btn { width:40px; height:40px; border-radius:9px; border:1px solid var(--border); background:#fff; display:flex; align-items:center; justify-content:center; cursor:pointer; transition:all 0.2s; flex-shrink:0; }
+.home-btn:hover { border-color:var(--purple); background:var(--purple-light); }
+.home-btn svg { width:15px; height:15px; fill:var(--gray); }
+.home-btn:hover svg { fill:var(--purple); }
+.sidebar-section { padding:12px 16px 4px; font-size:10px; color:#bbb; letter-spacing:1px; }
+.sidebar-list { flex:1; overflow-y:auto; padding:0 8px 12px; }
+.sidebar-list::-webkit-scrollbar { width:3px; }
+.sidebar-list::-webkit-scrollbar-thumb { background:var(--border); border-radius:3px; }
+.chat-item { display:flex; align-items:center; gap:8px; padding:9px 10px; border-radius:9px; cursor:pointer; transition:background 0.2s; margin-bottom:2px; }
+.chat-item:hover { background:var(--gray-light); }
+.chat-item.active { background:var(--purple-light); }
+.chat-item-icon { width:28px; height:28px; border-radius:7px; display:flex; align-items:center; justify-content:center; flex-shrink:0; font-size:13px; }
+.chat-item-text { flex:1; min-width:0; }
+.chat-item-title { font-size:12px; color:var(--black); white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+.chat-item.active .chat-item-title { color:var(--purple); font-weight:500; }
+.chat-item-time { font-size:10px; color:#bbb; margin-top:1px; }
+
+/* CHAT MAIN */
+.chat-main { flex:1; display:flex; flex-direction:column; overflow:hidden; }
+.chat-header { padding:12px 20px; border-bottom:0.5px solid var(--border); background:#fff; display:flex; align-items:center; gap:10px; }
+.chat-header-icon { font-size:20px; }
+.chat-header-title { font-size:14px; color:var(--black); font-weight:500; }
+.chat-header-sub { font-size:11px; color:var(--gray); }
+.chat-msgs { flex:1; overflow-y:auto; padding:20px; display:flex; flex-direction:column; gap:14px; }
+.chat-msgs::-webkit-scrollbar { width:4px; }
+.chat-msgs::-webkit-scrollbar-thumb { background:var(--border); border-radius:4px; }
+.msg-row { display:flex; align-items:flex-end; gap:10px; animation:msgIn 0.3s ease; }
+@keyframes msgIn { from{opacity:0;transform:translateY(8px)} to{opacity:1;transform:translateY(0)} }
+.msg-row.user { flex-direction:row-reverse; }
+.msg-av { width:30px; height:30px; border-radius:50%; flex-shrink:0; display:flex; align-items:center; justify-content:center; }
+.av-ai { background:var(--purple); }
+.av-ai svg { width:13px; height:13px; fill:white; }
+.av-user { background:var(--black); }
+.av-user svg { width:13px; height:13px; fill:#C6F542; }
+.msg-bubble { max-width:72%; padding:12px 16px; border-radius:16px; font-size:13.5px; line-height:1.8; direction:rtl; text-align:right; }
+.msg-bubble.ai { background:#fff; color:var(--black); border-bottom-right-radius:4px; border:0.5px solid #ebebeb; }
+.msg-bubble.user { background:var(--purple); color:var(--lime); border-bottom-left-radius:4px; }
+
+/* QUIZ CARD */
+.quiz-card { background:#fff; border:0.5px solid #ebebeb; border-radius:16px; padding:18px; max-width:72%; border-bottom-right-radius:4px; animation:msgIn 0.3s ease; }
+.quiz-question { font-size:14px; color:var(--black); font-weight:500; margin-bottom:14px; line-height:1.6; direction:rtl; text-align:right; }
+.quiz-options { display:flex; flex-direction:column; gap:8px; }
+.quiz-option { padding:10px 14px; border-radius:9px; border:1px solid #e0e0e0; font-size:13px; color:var(--black); cursor:pointer; transition:all 0.2s; text-align:right; direction:rtl; font-family:'ThmanyahSans',sans-serif; background:#fff; }
+.quiz-option:hover { border-color:var(--purple); background:var(--purple-light); color:var(--purple); }
+.quiz-option.correct { background:#EAF3DE; border-color:#3B6D11; color:#3B6D11; pointer-events:none; }
+.quiz-option.wrong { background:#FCEBEB; border-color:#A32D2D; color:#A32D2D; pointer-events:none; }
+.quiz-option.disabled { pointer-events:none; opacity:0.5; }
+
+/* TYPING */
+.typing-indicator { display:flex; gap:4px; align-items:center; padding:14px 18px; background:#fff; border-radius:16px; border-bottom-right-radius:4px; border:0.5px solid #ebebeb; width:fit-content; }
+.typing-dot { width:6px; height:6px; border-radius:50%; background:var(--purple); animation:typingBounce 1.2s infinite; }
+.typing-dot:nth-child(2) { animation-delay:0.2s; }
+.typing-dot:nth-child(3) { animation-delay:0.4s; }
+@keyframes typingBounce { 0%,60%,100%{transform:translateY(0)} 30%{transform:translateY(-6px)} }
+
+/* CHAT INPUT */
+.chat-input-area { padding:14px 20px 18px; background:#fff; border-top:0.5px solid var(--border); }
+.chat-input-wrap { background:#FAFAF7; border:1.5px solid rgba(108,76,241,0.2); border-radius:12px; padding:6px 6px 6px 12px; display:flex; align-items:flex-end; gap:8px; transition:border-color 0.3s,box-shadow 0.3s; }
+.chat-input-wrap:focus-within { border-color:var(--purple); box-shadow:0 0 0 3px rgba(108,76,241,0.08); }
+.chat-input-wrap textarea { flex:1; border:none; outline:none; resize:none; font-family:'ThmanyahSans',sans-serif; font-size:13.5px; color:var(--black); background:transparent; padding:6px 4px; min-height:36px; max-height:100px; line-height:1.6; direction:rtl; }
+.chat-input-wrap textarea::placeholder { color:#bbb; }
+.send-btn { width:34px; height:34px; border-radius:9px; background:var(--purple); border:none; cursor:pointer; display:flex; align-items:center; justify-content:center; flex-shrink:0; transition:transform 0.2s,background 0.2s; }
+.send-btn:hover { transform:scale(1.08); background:var(--purple-dark); }
+.send-btn svg { width:14px; height:14px; fill:var(--lime); }
+/* ── SIDEBAR ── */
+.overlay { position:fixed; inset:0; background:rgba(0,0,0,0.35); z-index:100; opacity:0; pointer-events:none; transition:opacity 0.3s; }
+.overlay.show { opacity:1; pointer-events:all; }
+
+.sidebar-panel { position:fixed; left:0; top:0; bottom:0; width:300px; background:#fff; z-index:101; transform:translateX(-100%); transition:transform 0.35s cubic-bezier(0.4,0,0.2,1); display:flex; flex-direction:column; box-shadow:4px 0 24px rgba(0,0,0,0.1); direction:rtl; }
+.sidebar-panel.show { transform:translateX(0); }
+
+.sidebar-user { padding:24px 20px 16px; background:linear-gradient(135deg,var(--purple),var(--purple-dark)); position:relative; overflow:hidden; }
+.sidebar-user-bg { position:absolute; width:120px; height:120px; border-radius:50%; background:rgba(255,255,255,0.06); top:-30px; left:-30px; }
+.sidebar-user-bg2 { position:absolute; width:80px; height:80px; border-radius:50%; background:rgba(198,245,66,0.08); bottom:-20px; right:20px; }
+.sidebar-avatar-wrap { position:relative; width:60px; height:60px; margin-bottom:12px; z-index:2; }
+.sidebar-avatar { width:60px; height:60px; border-radius:50%; background:rgba(255,255,255,0.15); display:flex; align-items:center; justify-content:center; border:2px solid rgba(255,255,255,0.3); cursor:pointer; transition:all 0.2s; }
+.sidebar-avatar:hover { background:rgba(255,255,255,0.25); }
+.sidebar-avatar svg { width:26px; height:26px; }
+
+.sidebar-name { font-size:14px; color:#fff; font-family:'ThmanyahSerif',serif; z-index:2; position:relative; }
+.sidebar-email { font-size:10px; color:rgba(255,255,255,0.6); margin-top:2px; z-index:2; position:relative; }
+.sidebar-xp-mini { display:flex; align-items:center; gap:8px; margin-top:10px; z-index:2; position:relative; }
+.sidebar-xp-bar { flex:1; height:4px; background:rgba(255,255,255,0.2); border-radius:2px; overflow:hidden; }
+.sidebar-xp-fill { height:100%; background:var(--lime); border-radius:2px; width:72%; }
+.sidebar-xp-label { font-size:10px; color:rgba(255,255,255,0.6); white-space:nowrap; }
+
+.sidebar-body { flex:1; overflow-y:auto; padding:8px 0; }
+.sidebar-body::-webkit-scrollbar { width:3px; }
+.sidebar-body::-webkit-scrollbar-thumb { background:var(--border); }
+
+.sidebar-section-label { padding:11px 20px 4px; font-size:9px; color:#bbb; letter-spacing:1.5px; }
+
+.sidebar-item { display:flex; align-items:center; gap:12px; padding:11px 20px; cursor:pointer; transition:background 0.2s; }
+.sidebar-item:hover { background:var(--gray-light); }
+.sidebar-item-icon { width:34px; height:34px; border-radius:9px; display:flex; align-items:center; justify-content:center; flex-shrink:0; } .sidebar-item-icon svg { width:16px; height:16px; }
+.sidebar-item-text { flex:1; }
+.sidebar-item-title { font-size:12px; color:var(--black); }
+.sidebar-item-sub { font-size:10px; color:#bbb; margin-top:1px; }
+.sidebar-item-arrow { font-size:11px; color:#ccc; }
+
+.sidebar-footer { padding:16px 20px; border-top:0.5px solid #f0f0f0; }
+.logout-btn { width:100%; display:flex; align-items:center; gap:10px; padding:11px 14px; border-radius:10px; border:1px solid #ffe0e0; background:#fff8f8; cursor:pointer; transition:all 0.2s; font-family:'ThmanyahSans',sans-serif; }
+.logout-btn:hover { background:#ffe0e0; }
+.logout-btn-icon { font-size:16px; }
+.logout-btn-text { font-size:13px; color:#e24b4a; font-weight:500; }
+
+/* ── POPUP ── *//* ── POPUP ── */
+.popup-overlay { position:fixed; inset:0; background:rgba(0,0,0,0.4); z-index:200; display:flex; align-items:center; justify-content:center; opacity:0; pointer-events:none; transition:opacity 0.25s; }
+.popup-overlay.show { opacity:1; pointer-events:all; }
+.popup { background:#fff; border-radius:18px; width:90%; max-width:420px; padding:28px; transform:scale(0.95) translateY(10px); transition:transform 0.25s; }
+.popup-overlay.show .popup { transform:scale(1) translateY(0); }
+.popup-title { font-size:18px; color:var(--black); margin-bottom:6px; }
+.popup-sub { font-size:13px; color:var(--gray); margin-bottom:22px; }
+.popup-field { display:flex; flex-direction:column; gap:6px; margin-bottom:14px; }
+.popup-field label { font-size:12px; color:var(--gray); font-weight:500; }
+.popup-field input { padding:11px 14px; border-radius:9px; border:1px solid #e0e0e0; font-size:13px; font-family:'ThmanyahSans',sans-serif; color:var(--black); outline:none; direction:rtl; transition:border-color 0.2s; }
+.popup-field input:focus { border-color:var(--purple); box-shadow:0 0 0 3px rgba(108,76,241,0.08); }
+.popup-actions { display:flex; gap:10px; margin-top:6px; }
+.popup-save { flex:1; background:var(--purple); color:var(--lime); padding:11px; border-radius:9px; border:none; font-size:13px; font-weight:600; cursor:pointer; font-family:'ThmanyahSans',sans-serif; transition:all 0.2s; }
+.popup-save:hover { background:var(--purple-dark); transform:scale(1.02); }
+.popup-cancel { padding:11px 18px; border-radius:9px; border:1px solid #e0e0e0; background:#fff; font-size:13px; cursor:pointer; font-family:'ThmanyahSans',sans-serif; color:var(--gray); transition:all 0.2s; }
+.popup-cancel:hover { background:var(--gray-light); }
+.popup-close { position:absolute; top:16px; left:16px; width:28px; height:28px; border-radius:50%; background:var(--gray-light); display:flex; align-items:center; justify-content:center; cursor:pointer; font-size:14px; color:var(--gray); transition:all 0.2s; }
+.popup-close:hover { background:#e0e0e0; }
+.popup { position:relative; }
+
+/* upload avatar *//* upload avatar */
+.avatar-upload-area { border:2px dashed rgba(108,76,241,0.3); border-radius:12px; padding:24px; text-align:center; cursor:pointer; transition:all 0.2s; margin-bottom:14px; }
+.avatar-upload-area:hover { border-color:var(--purple); background:var(--purple-light); }
+.avatar-upload-icon { font-size:32px; margin-bottom:8px; }
+.avatar-upload-text { font-size:13px; color:var(--gray); }
+.avatar-upload-text span { color:var(--purple); font-weight:600; }
+
+/* toggle switch */
+.toggle-row { display:flex; align-items:center; justify-content:space-between; padding:10px 0; border-bottom:0.5px solid #f5f5f5; }
+.toggle-row:last-child { border-bottom:none; }
+.toggle-label { font-size:13px; color:var(--black); }
+.toggle-sub { font-size:11px; color:#bbb; margin-top:2px; }
+.toggle { width:40px; height:22px; border-radius:11px; background:#e0e0e0; position:relative; cursor:pointer; transition:background 0.2s; flex-shrink:0; }
+.toggle.on { background:var(--purple); }
+.toggle-knob { position:absolute; width:16px; height:16px; border-radius:50%; background:#fff; top:3px; right:3px; transition:transform 0.2s; box-shadow:0 1px 4px rgba(0,0,0,0.2); }
+.toggle.on .toggle-knob { transform:translateX(-18px); }
+
+/* plan badge */
+.plan-badge { display:inline-flex; align-items:center; gap:6px; background:var(--purple-light); color:var(--purple); font-size:12px; padding:4px 12px; border-radius:20px; margin-bottom:14px; }
+.upgrade-btn { width:100%; background:var(--lime); color:var(--black); padding:11px; border-radius:9px; border:none; font-size:13px; font-weight:600; cursor:pointer; font-family:'ThmanyahSans',sans-serif; transition:all 0.2s; }
+.upgrade-btn:hover { background:var(--lime-dark); transform:scale(1.02); }
+
+
+/* ── SIDEBAR ── */
+.overlay { position:fixed; inset:0; background:rgba(0,0,0,0.35); z-index:100; opacity:0; pointer-events:none; transition:opacity 0.3s; }
+.overlay.show { opacity:1; pointer-events:all; }
+
+.sidebar-panel { position:fixed; left:0; top:0; bottom:0; width:300px; background:#fff; z-index:101; transform:translateX(-100%); transition:transform 0.35s cubic-bezier(0.4,0,0.2,1); display:flex; flex-direction:column; box-shadow:4px 0 24px rgba(0,0,0,0.1); direction:rtl; }
+.sidebar-panel.show { transform:translateX(0); }
+
+.sidebar-user { padding:24px 20px 16px; background:linear-gradient(135deg,var(--purple),var(--purple-dark)); position:relative; overflow:hidden; }
+.sidebar-user-bg { position:absolute; width:120px; height:120px; border-radius:50%; background:rgba(255,255,255,0.06); top:-30px; left:-30px; }
+.sidebar-user-bg2 { position:absolute; width:80px; height:80px; border-radius:50%; background:rgba(198,245,66,0.08); bottom:-20px; right:20px; }
+.sidebar-avatar-wrap { position:relative; width:60px; height:60px; margin-bottom:12px; z-index:2; }
+.sidebar-avatar { width:60px; height:60px; border-radius:50%; background:rgba(255,255,255,0.15); display:flex; align-items:center; justify-content:center; border:2px solid rgba(255,255,255,0.3); cursor:pointer; transition:all 0.2s; }
+.sidebar-avatar:hover { background:rgba(255,255,255,0.25); }
+.sidebar-avatar svg { width:26px; height:26px; }
+
+.sidebar-name { font-size:14px; color:#fff; font-family:'ThmanyahSerif',serif; z-index:2; position:relative; }
+.sidebar-email { font-size:10px; color:rgba(255,255,255,0.6); margin-top:2px; z-index:2; position:relative; }
+.sidebar-xp-mini { display:flex; align-items:center; gap:8px; margin-top:10px; z-index:2; position:relative; }
+.sidebar-xp-bar { flex:1; height:4px; background:rgba(255,255,255,0.2); border-radius:2px; overflow:hidden; }
+.sidebar-xp-fill { height:100%; background:var(--lime); border-radius:2px; width:72%; }
+.sidebar-xp-label { font-size:10px; color:rgba(255,255,255,0.6); white-space:nowrap; }
+
+.sidebar-body { flex:1; overflow-y:auto; padding:8px 0; }
+.sidebar-body::-webkit-scrollbar { width:3px; }
+.sidebar-body::-webkit-scrollbar-thumb { background:var(--border); }
+
+.sidebar-section-label { padding:11px 20px 4px; font-size:9px; color:#bbb; letter-spacing:1.5px; }
+
+.sidebar-item { display:flex; align-items:center; gap:12px; padding:11px 20px; cursor:pointer; transition:background 0.2s; }
+.sidebar-item:hover { background:var(--gray-light); }
+.sidebar-item-icon { width:34px; height:34px; border-radius:9px; display:flex; align-items:center; justify-content:center; flex-shrink:0; } .sidebar-item-icon svg { width:16px; height:16px; }
+.sidebar-item-text { flex:1; }
+.sidebar-item-title { font-size:12px; color:var(--black); }
+.sidebar-item-sub { font-size:10px; color:#bbb; margin-top:1px; }
+.sidebar-item-arrow { font-size:11px; color:#ccc; }
+
+.sidebar-footer { padding:16px 20px; border-top:0.5px solid #f0f0f0; }
+.logout-btn { width:100%; display:flex; align-items:center; gap:10px; padding:11px 14px; border-radius:10px; border:1px solid #ffe0e0; background:#fff8f8; cursor:pointer; transition:all 0.2s; font-family:'ThmanyahSans',sans-serif; }
+.logout-btn:hover { background:#ffe0e0; }
+.logout-btn-icon { font-size:16px; }
+.logout-btn-text { font-size:13px; color:#e24b4a; font-weight:500; }
+
+/* ── POPUP ── */
+.popup-overlay { position:fixed; inset:0; background:rgba(0,0,0,0.4); z-index:200; display:flex; align-items:center; justify-content:center; opacity:0; pointer-events:none; transition:opacity 0.25s; }
+.popup-overlay.show { opacity:1; pointer-events:all; }
+.popup { background:#fff; border-radius:18px; width:90%; max-width:420px; padding:28px; transform:scale(0.95) translateY(10px); transition:transform 0.25s; }
+.popup-overlay.show .popup { transform:scale(1) translateY(0); }
+.popup-title { font-size:18px; color:var(--black); margin-bottom:6px; }
+.popup-sub { font-size:13px; color:var(--gray); margin-bottom:22px; }
+.popup-field { display:flex; flex-direction:column; gap:6px; margin-bottom:14px; }
+.popup-field label { font-size:12px; color:var(--gray); font-weight:500; }
+.popup-field input { padding:11px 14px; border-radius:9px; border:1px solid #e0e0e0; font-size:13px; font-family:'ThmanyahSans',sans-serif; color:var(--black); outline:none; direction:rtl; transition:border-color 0.2s; }
+.popup-field input:focus { border-color:var(--purple); box-shadow:0 0 0 3px rgba(108,76,241,0.08); }
+.popup-actions { display:flex; gap:10px; margin-top:6px; }
+.popup-save { flex:1; background:var(--purple); color:var(--lime); padding:11px; border-radius:9px; border:none; font-size:13px; font-weight:600; cursor:pointer; font-family:'ThmanyahSans',sans-serif; transition:all 0.2s; }
+.popup-save:hover { background:var(--purple-dark); transform:scale(1.02); }
+.popup-cancel { padding:11px 18px; border-radius:9px; border:1px solid #e0e0e0; background:#fff; font-size:13px; cursor:pointer; font-family:'ThmanyahSans',sans-serif; color:var(--gray); transition:all 0.2s; }
+.popup-cancel:hover { background:var(--gray-light); }
+.popup-close { position:absolute; top:16px; left:16px; width:28px; height:28px; border-radius:50%; background:var(--gray-light); display:flex; align-items:center; justify-content:center; cursor:pointer; font-size:14px; color:var(--gray); transition:all 0.2s; }
+.popup-close:hover { background:#e0e0e0; }
+.popup { position:relative; }
+
+/* upload avatar */
+.avatar-upload-area { border:2px dashed rgba(108,76,241,0.3); border-radius:12px; padding:24px; text-align:center; cursor:pointer; transition:all 0.2s; margin-bottom:14px; }
+.avatar-upload-area:hover { border-color:var(--purple); background:var(--purple-light); }
+.avatar-upload-icon { font-size:32px; margin-bottom:8px; }
+.avatar-upload-text { font-size:13px; color:var(--gray); }
+.avatar-upload-text span { color:var(--purple); font-weight:600; }
+
+/* toggle switch */
+.toggle-row { display:flex; align-items:center; justify-content:space-between; padding:10px 0; border-bottom:0.5px solid #f5f5f5; }
+.toggle-row:last-child { border-bottom:none; }
+.toggle-label { font-size:13px; color:var(--black); }
+.toggle-sub { font-size:11px; color:#bbb; margin-top:2px; }
+.toggle { width:40px; height:22px; border-radius:11px; background:#e0e0e0; position:relative; cursor:pointer; transition:background 0.2s; flex-shrink:0; }
+.toggle.on { background:var(--purple); }
+.toggle-knob { position:absolute; width:16px; height:16px; border-radius:50%; background:#fff; top:3px; right:3px; transition:transform 0.2s; box-shadow:0 1px 4px rgba(0,0,0,0.2); }
+.toggle.on .toggle-knob { transform:translateX(-18px); }
+
+/* plan badge */
+.plan-badge { display:inline-flex; align-items:center; gap:6px; background:var(--purple-light); color:var(--purple); font-size:12px; padding:4px 12px; border-radius:20px; margin-bottom:14px; }
+.upgrade-btn { width:100%; background:var(--lime); color:var(--black); padding:11px; border-radius:9px; border:none; font-size:13px; font-weight:600; cursor:pointer; font-family:'ThmanyahSans',sans-serif; transition:all 0.2s; }
+.upgrade-btn:hover { background:var(--lime-dark); transform:scale(1.02); }
+
+
+</style>
+</head>
+<body>
+
+<header class="header">
+  <a href="index.html" class="logo">
+    <div class="logo-icon"><svg viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg></div>
+    <div class="logo-divider"></div>
+    <div class="logo-mark">
+      <span class="logo-ar">نهج</span>
+      <span class="logo-en">NAHJ</span>
+    </div>
+  </a>
+  <div style="display:flex;align-items:center;gap:10px;"><a href="dashboard.html" style="display:flex;align-items:center;gap:5px;font-size:12px;color:#555;text-decoration:none;padding:6px 12px;border-radius:8px;transition:all 0.2s;"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>تقدمي</a><div class="user-avatar" onclick="openSidebar()" style="cursor:pointer;">
+    <svg viewBox="0 0 24 24" fill="none" stroke="#C6F542" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>
+  </div></div>
+</header>
+
+<div class="body">
+
+  <!-- WELCOME -->
+  <div class="welcome" id="welcome">
+    <div class="welcome-grid"></div>
+    <div class="worb worb1"></div>
+    <div class="worb worb2"></div>
+    <div class="welcome-content">
+      <div class="welcome-avatar"><svg viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg></div>
+      <h1 class="welcome-title" id="welcomeTitle">أهلاً! أنا مساعدك في نهج</h1>
+      <p class="welcome-sub" id="welcomeSub">أخبرني بالمادة أو المشروع الذي تحتاج مساعدة فيه</p>
+
+      <!-- خانة الإدخال — تتغير حسب الاقتراح -->
+      <div id="inputArea">
+        <!-- الافتراضي: خانة كتابة -->
+        <div class="welcome-input-wrap" id="textInputWrap">
+          <textarea id="welcomeInput" placeholder="اكتب مادتك أو سؤالك هنا..." rows="1"
+            onkeydown="if(event.key==='Enter'&&!event.shiftKey){event.preventDefault();handleSend()}"
+            oninput="autoResize(this)"></textarea>
+          <button class="welcome-send" id="mainSendBtn" onclick="handleSend()">ابدأ ←</button>
+        </div>
+      </div>
+
+      <div class="suggestions" id="suggestions">
+        <div class="suggestion-pill" id="pill-assistant" onclick="selectService('assistant')">🤖 مساعد ذكي</div>
+        <div class="suggestion-pill" id="pill-summary"   onclick="selectService('summary')">📚 تلخيص الكتاب</div>
+        <div class="suggestion-pill" id="pill-quiz"      onclick="selectService('quiz')">📝 اختبارات تلقائية</div>
+        <div class="suggestion-pill" id="pill-project"   onclick="selectService('project')">🏗️ بناء مشروع</div>
+        <div class="suggestion-pill" id="pill-progress"  onclick="selectService('progress')">📊 تتبع التقدم</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- CHAT LAYOUT -->
+  <div class="chat-layout" id="chatLayout">
+    <div class="sidebar">
+      <div class="sidebar-header">
+        <button class="new-chat-btn" onclick="newChat()">
+          <svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg>
+          محادثة جديدة
+        </button>
+        <button class="home-btn" onclick="goHome()" title="الصفحة الرئيسية">
+          <svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+        </button>
+      </div>
+      <div class="sidebar-section">المحادثات</div>
+      <div class="sidebar-list" id="sidebarList"></div>
+    </div>
+    <div class="chat-main">
+      <div class="chat-header">
+        <div class="chat-header-icon" id="chatHeaderIcon">🤖</div>
+        <div>
+          <div class="chat-header-title" id="chatHeaderTitle">مساعد ذكي</div>
+          <div class="chat-header-sub">نهج · متصل الآن</div>
+        </div>
+      </div>
+      <div class="chat-msgs" id="chatMsgs"></div>
+      <div class="chat-input-area">
+        <div class="chat-input-wrap">
+          <textarea id="chatInput" placeholder="اكتب رسالتك..." rows="1"
+            onkeydown="if(event.key==='Enter'&&!event.shiftKey){event.preventDefault();sendMessage()}"
+            oninput="autoResize(this)"></textarea>
+          <button class="send-btn" onclick="sendMessage()">
+            <svg viewBox="0 0 24 24"><path d="M22 2L11 13M22 2L15 22l-4-9-9-4 20-7z"/></svg>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<input type="file" id="fileInput" accept=".pdf,.doc,.docx,.txt" onchange="handleFileSelect(this)">
+
+<script>
+const aiIcon = `<svg viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5z"/></svg>`;
+const userIcon = `<svg viewBox="0 0 24 24" fill="none" stroke="#C6F542" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>`;
+
+let currentService = 'assistant';
+let uploadedFile = null;
+let selectedLevel = '';
+
+const services = {
+  assistant: { icon:'🤖', title:'مساعد ذكي',       greeting:'مرحباً! أنا مساعدك الذكي في نهج. اسألني أي سؤال في أي مادة وسأساعدك فوراً 😊' },
+  summary:   { icon:'📚', title:'تلخيص الكتاب',    greeting:'تم رفع الكتاب بنجاح! سأقرأه وأعطيك ملخصاً شاملاً وواضحاً. لحظة من فضلك... 📖' },
+  quiz:      { icon:'📝', title:'اختبارات تلقائية', greeting:'ممتاز! سأولّد لك اختباراً من محتوى الكتاب. تذكر: 4 خيارات لكل سؤال. جاهز؟ ✍️' },
+  project:   { icon:'🏗️', title:'',                greeting:'' },
+  progress:  { icon:'📊', title:'',                greeting:'' },
+};
+
+function sleep(ms){ return new Promise(r=>setTimeout(r,ms)); }
+function autoResize(el){ el.style.height='auto'; el.style.height=Math.min(el.scrollHeight,100)+'px'; }
+
+/* ── اختيار الاقتراح ── */
+function selectService(type) {
+  currentService = type;
+  uploadedFile = null;
+  selectedLevel = '';
+
+  // تحديث الأزرار
+  document.querySelectorAll('.suggestion-pill').forEach(p => p.classList.remove('active'));
+  document.getElementById('pill-'+type).classList.add('active');
+
+  const area = document.getElementById('inputArea');
+
+  if (type === 'assistant') {
+    // خانة كتابة عادية
+    document.getElementById('welcomeTitle').textContent = 'أهلاً! أنا مساعدك في نهج';
+    document.getElementById('welcomeSub').textContent = 'اسألني أي سؤال في أي مادة';
+    area.innerHTML = `
+      <div class="welcome-input-wrap" id="textInputWrap">
+        <textarea id="welcomeInput" placeholder="اكتب مادتك أو سؤالك هنا..." rows="1"
+          onkeydown="if(event.key==='Enter'&&!event.shiftKey){event.preventDefault();handleSend()}"
+          oninput="autoResize(this)"></textarea>
+        <button class="welcome-send" id="mainSendBtn" onclick="handleSend()">ابدأ ←</button>
+      </div>`;
+
+  } else if (type === 'summary' || type === 'quiz') {
+    // رفع ملف
+    const label = type === 'summary' ? 'تلخيص الكتاب' : 'اختبارات تلقائية';
+    const sub = type === 'summary' ? 'ارفع الكتاب أو الملف وسأعطيك ملخصاً شاملاً' : 'ارفع الكتاب أو الفصل وسأولّد لك اختباراً منه';
+    const btnLabel = type === 'summary' ? 'ابدأ التلخيص ←' : 'ابدأ الاختبار ←';
+    document.getElementById('welcomeTitle').textContent = label;
+    document.getElementById('welcomeSub').textContent = sub;
+    area.innerHTML = `
+      <div class="upload-box" id="uploadBox">
+        <div class="upload-icon">📂</div>
+        <div class="upload-text">اسحب الملف هنا أو</div>
+        <label for="inlineFileInput" style="background:var(--purple);color:#C6F542;padding:8px 22px;border-radius:9px;font-size:13px;cursor:pointer;font-family:'ThmanyahSans',sans-serif;font-weight:600;">اختر ملف</label>
+        <input type="file" id="inlineFileInput" accept=".pdf,.doc,.docx,.txt" style="display:none" onchange="handleInlineFileSelect(this)" />
+        <div class="upload-hint">PDF · Word · TXT</div>
+      </div>
+      <button class="welcome-send" id="mainSendBtn" onclick="handleSend()" disabled style="width:100%;padding:12px;border-radius:10px;margin-bottom:14px;">${btnLabel}</button>`;
+
+  } else if (type === 'project') {
+    document.getElementById('welcomeTitle').textContent = 'بناء مشروع';
+    document.getElementById('welcomeSub').textContent = 'أخبرني بموضوع مشروعك وسأساعدك خطوة بخطوة';
+    area.innerHTML = `
+      <div class="project-box">
+        <div class="project-label">ما موضوع مشروعك؟</div>
+        <input class="project-input" id="projectInput" type="text" placeholder="مثال: تأثير التلوث على البيئة البحرية..."
+          onkeydown="if(event.key==='Enter'){handleSend()}" />
+      </div>
+      <button class="welcome-send" id="mainSendBtn" onclick="handleSend()" style="width:100%;padding:12px;border-radius:10px;margin-bottom:14px;">ابدأ المشروع ←</button>`;
+
+  } else if (type === 'progress') {
+    document.getElementById('welcomeTitle').textContent = 'تتبع التقدم';
+    document.getElementById('welcomeSub').textContent = 'ابنِ مسارك التعليمي واكسب XP مع كل إنجاز';
+    area.innerHTML = `
+      <div class="xp-box">
+        <div class="xp-title">ما المادة التي تريد تتبع تقدمك فيها؟</div>
+        <div class="xp-input-row">
+          <input class="xp-input" id="xpSubject" type="text" placeholder="مثال: فيزياء، رياضيات..." />
+        </div>
+        <div class="project-label" style="margin-bottom:8px;">المرحلة الدراسية:</div>
+        <div class="level-btns">
+          <button class="level-btn" onclick="selectLevel(this,'ابتدائي')">ابتدائي</button>
+          <button class="level-btn" onclick="selectLevel(this,'متوسط')">متوسط</button>
+          <button class="level-btn" onclick="selectLevel(this,'ثانوي')">ثانوي</button>
+          <button class="level-btn" onclick="selectLevel(this,'جامعي')">جامعي</button>
+        </div>
+      </div>
+      <button class="welcome-send" id="mainSendBtn" onclick="handleSend()" style="width:100%;padding:12px;border-radius:10px;margin-bottom:14px;">ابدأ المسار ←</button>`;
+  }
+}
+
+function selectLevel(btn, level) {
+  selectedLevel = level;
+  document.querySelectorAll('.level-btn').forEach(b => b.classList.remove('selected'));
+  btn.classList.add('selected');
+}
+
+/* ── رفع الملف ── */
+function handleFileSelect(input) {
+  if (!input.files[0]) return;
+  uploadedFile = input.files[0];
+  updateUploadBox();
+}
+
+function handleInlineFileSelect(input) {
+  if (!input.files[0]) return;
+  uploadedFile = input.files[0];
+  updateUploadBox();
+}
+
+function updateUploadBox() {
+  const box = document.getElementById('uploadBox');
+  if (box) {
+    box.classList.add('has-file');
+    box.innerHTML = `
+      <div class="upload-icon">✅</div>
+      <div class="upload-filename">${uploadedFile.name}</div>
+      <label for="inlineFileInput" style="font-size:11px;color:var(--purple);cursor:pointer;text-decoration:underline;">تغيير الملف</label>
+      <input type="file" id="inlineFileInput" accept=".pdf,.doc,.docx,.txt" style="display:none" onchange="handleInlineFileSelect(this)" />`;
+  }
+  const btn = document.getElementById('mainSendBtn');
+  if (btn) btn.disabled = false;
+}
+
+/* ── إرسال ── */
+function handleSend() {
+  const svc = currentService;
+
+  if (svc === 'assistant') {
+    const text = document.getElementById('welcomeInput')?.value.trim() || '';
+    openChat('assistant', 'مساعد ذكي', text);
+
+  } else if (svc === 'summary' || svc === 'quiz') {
+    if (!uploadedFile) return;
+    const chatName = uploadedFile.name.replace(/\.[^/.]+$/, '');
+    openChat(svc, chatName, '');
+
+  } else if (svc === 'project') {
+    const topic = document.getElementById('projectInput')?.value.trim() || 'مشروع جديد';
+    const chatName = topic.split(' ').slice(0,3).join(' ');
+    openChat('project', chatName, topic);
+
+  } else if (svc === 'progress') {
+    const subject = document.getElementById('xpSubject')?.value.trim() || 'مادة';
+    const level = selectedLevel || 'ثانوي';
+    openChat('progress', `${subject} · ${level}`, subject);
+  }
+}
+
+/* ── فتح المحادثة ── */
+async function openChat(type, chatName, userText) {
+  const svc = services[type] || services.assistant;
+  document.getElementById('chatHeaderIcon').textContent = svc.icon;
+  document.getElementById('chatHeaderTitle').textContent = chatName;
+  document.getElementById('welcome').classList.add('hidden');
+  document.getElementById('chatLayout').classList.add('visible');
+  document.getElementById('chatMsgs').innerHTML = '';
+  addToSidebar(svc.icon, chatName);
+
+  await sleep(300);
+
+  if (type === 'assistant') {
+    addMessage('ai', svc.greeting);
+    if (userText) { await sleep(400); addMessage('user', userText); await showTyping(); addMessage('ai', 'فهمت! دعني أساعدك في هذا. هل تريد أن نبدأ بالأساسيات؟'); }
+
+  } else if (type === 'summary') {
+    addMessage('ai', `تم استلام الملف: "${uploadedFile.name}" 📂`);
+    await showTyping();
+    addMessage('ai', `بدأت قراءة المحتوى... سأعطيك ملخصاً شاملاً للكتاب خلال لحظات. 📖`);
+    await showTyping();
+    addMessage('ai', `✅ انتهيت من القراءة! هذا ملخص الكتاب:\n\n• الفكرة الرئيسية: يتناول الكتاب المفاهيم الأساسية في الموضوع بأسلوب واضح.\n• أبرز النقاط: تم تغطية المحاور الرئيسية مع أمثلة تطبيقية.\n• الخلاصة: كتاب شامل يناسب طلاب المرحلة المتوسطة والثانوية.\n\nهل تريد توضيح أي جزء أو تلخيص فصل محدد؟`);
+
+  } else if (type === 'quiz') {
+    addMessage('ai', `ممتاز! رفعت "${uploadedFile.name}" 📝 سأولّد لك اختباراً الآن...`);
+    await showTyping();
+    addMessage('ai', 'إليك أول سؤال:');
+    await sleep(300);
+    addQuizCard(
+      'ما هو تعريف القوة في الفيزياء؟',
+      ['مقدار التغيير في السرعة', 'حاصل ضرب الكتلة في التسارع', 'مقدار الطاقة المبذولة', 'معدل تغيير الزمن'],
+      1
+    );
+
+  } else if (type === 'project') {
+    addMessage('ai', `موضوع رائع! سأساعدك في بناء مشروع "${userText}" خطوة بخطوة 🏗️`);
+    await showTyping();
+    addMessage('ai', `خطة المشروع المقترحة:\n\n١. المقدمة وأهمية الموضوع\n٢. الأسباب والعوامل\n٣. التأثيرات والنتائج\n٤. الحلول المقترحة\n٥. الخاتمة والتوصيات\n\nمن أي خطوة تريد نبدأ؟`);
+
+  } else if (type === 'progress') {
+    addMessage('ai', `مرحباً! سأبني لك مساراً تعليمياً في مادة "${userText}" 🗺️`);
+    await showTyping();
+    addMessage('ai', `⚡ مستواك الحالي: المبتدئ\n████░░░░░░  0 XP / 100\n\n🗺️ مسارك في ${userText}:\n□ الفصل 1 — المفاهيم الأساسية\n□ الفصل 2 — التطبيقات\n□ الفصل 3 — المسائل المتقدمة\n□ الفصل 4 — الاختبار الشامل\n\nهل تريد نبدأ بالفصل الأول؟ ✅`);
+  }
+}
+
+/* ── إضافة رسالة ── */
+function addMessage(role, text) {
+  const msgs = document.getElementById('chatMsgs');
+  const row = document.createElement('div');
+  row.className = 'msg-row ' + role;
+  const av = document.createElement('div');
+  av.className = 'msg-av ' + (role==='ai'?'av-ai':'av-user');
+  av.innerHTML = role==='ai' ? aiIcon : userIcon;
+  const bubble = document.createElement('div');
+  bubble.className = 'msg-bubble ' + role;
+  bubble.style.whiteSpace = 'pre-line';
+  bubble.textContent = text;
+  row.appendChild(av); row.appendChild(bubble);
+  msgs.appendChild(row);
+  msgs.scrollTop = msgs.scrollHeight;
+}
+
+/* ── بطاقة اختيار ── */
+function addQuizCard(question, options, correctIndex) {
+  const msgs = document.getElementById('chatMsgs');
+  const row = document.createElement('div');
+  row.className = 'msg-row ai';
+  const av = document.createElement('div');
+  av.className = 'msg-av av-ai'; av.innerHTML = aiIcon;
+  const card = document.createElement('div');
+  card.className = 'quiz-card';
+  const q = document.createElement('div');
+  q.className = 'quiz-question'; q.textContent = question;
+  const opts = document.createElement('div');
+  opts.className = 'quiz-options';
+  options.forEach((opt, i) => {
+    const btn = document.createElement('button');
+    btn.className = 'quiz-option'; btn.textContent = opt;
+    btn.onclick = () => {
+      card.querySelectorAll('.quiz-option').forEach((b,j) => {
+        b.classList.remove('correct','wrong');
+        b.classList.add(j===correctIndex?'correct':'disabled');
+        if(j===i && i!==correctIndex) b.classList.add('wrong');
+      });
+      setTimeout(() => {
+        addMessage('ai', i===correctIndex ? '✅ إجابة صحيحة! +15 XP 🎉' : `❌ الإجابة الصحيحة هي: "${options[correctIndex]}". حاول مرة أخرى في السؤال القادم!`);
+        document.getElementById('chatMsgs').scrollTop = 99999;
+      }, 400);
+    };
+    opts.appendChild(btn);
+  });
+  card.appendChild(q); card.appendChild(opts);
+  row.appendChild(av); row.appendChild(card);
+  msgs.appendChild(row);
+  msgs.scrollTop = msgs.scrollHeight;
+}
+
+/* ── مؤشر الكتابة ── */
+async function showTyping() {
+  const msgs = document.getElementById('chatMsgs');
+  const row = document.createElement('div');
+  row.className = 'msg-row ai';
+  const av = document.createElement('div');
+  av.className = 'msg-av av-ai'; av.innerHTML = aiIcon;
+  const ind = document.createElement('div');
+  ind.className = 'typing-indicator';
+  ind.innerHTML = '<div class="typing-dot"></div><div class="typing-dot"></div><div class="typing-dot"></div>';
+  row.appendChild(av); row.appendChild(ind);
+  msgs.appendChild(row);
+  msgs.scrollTop = msgs.scrollHeight;
+  await sleep(1200);
+  row.remove();
+}
+
+/* ── سايدبار ── */
+function addToSidebar(icon, title) {
+  const list = document.getElementById('sidebarList');
+  list.querySelectorAll('.chat-item').forEach(el => el.classList.remove('active'));
+  const item = document.createElement('div');
+  item.className = 'chat-item active';
+  const now = new Date();
+  const time = now.getHours()+':'+String(now.getMinutes()).padStart(2,'0');
+  item.innerHTML = `
+    <div class="chat-item-icon">${icon}</div>
+    <div class="chat-item-text">
+      <div class="chat-item-title">${title}</div>
+      <div class="chat-item-time">الآن · ${time}</div>
+    </div>`;
+  list.insertBefore(item, list.firstChild);
+}
+
+/* ── إرسال رسالة من المحادثة ── */
+async function sendMessage() {
+  const input = document.getElementById('chatInput');
+  const text = input.value.trim();
+  if (!text) return;
+  input.value = ''; input.style.height = 'auto';
+  addMessage('user', text);
+  await showTyping();
+  const reply = await askGemini(text, currentService || 'assistant');
+  addMessage('ai', reply);
+}
+
+/* ── محادثة جديدة ── */
+function newChat() {
+  document.getElementById('chatMsgs').innerHTML = '';
+  uploadedFile = null;
+  selectService('assistant');
+  document.getElementById('welcome').classList.remove('hidden');
+  document.getElementById('chatLayout').classList.remove('visible');
+  setTimeout(() => {
+    document.getElementById('welcome').classList.add('hidden');
+    openChat('assistant', 'مساعد ذكي', '');
+  }, 100);
+}
+
+function goHome() {
+  document.getElementById('chatLayout').classList.remove('visible');
+  document.getElementById('welcome').classList.remove('hidden');
+  document.querySelectorAll('.suggestion-pill').forEach(p => p.classList.remove('active'));
+  uploadedFile = null;
+}
+</script>
+<!-- OVERLAY -->
+<div class="overlay" id="overlay" onclick="closeSidebar()"></div>
+
+<div class="sidebar-panel" id="sidebarPanel">
+  <div class="sidebar-user">
+    <div class="sidebar-user-bg"></div>
+    <div class="sidebar-user-bg2"></div>
+    <div class="sidebar-avatar-wrap">
+      <div class="sidebar-avatar">
+        <svg viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.85)" stroke-width="1.8" stroke-linecap="round"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>
+      </div>
+    </div>
+    <div class="sidebar-name">الطالب</div>
+    <div class="sidebar-email">student@example.com</div>
+    <div class="sidebar-xp-mini">
+      <div class="sidebar-xp-bar"><div class="sidebar-xp-fill"></div></div>
+      <span class="sidebar-xp-label">720 / 1000 XP</span>
+    </div>
+  </div>
+
+  <div class="sidebar-body">
+    <div class="sidebar-section-label">الحساب</div>
+    <div class="sidebar-item" onclick="openPopup(&apos;profile&apos;)">
+      <div class="sidebar-item-icon" style="background:#EEE9FE;">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#6C4CF1" stroke-width="1.8" stroke-linecap="round"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>
+      </div>
+      <div class="sidebar-item-text">
+        <div class="sidebar-item-title">معلومات المستخدم</div>
+        <div class="sidebar-item-sub">الاسم والعمر والصورة</div>
+      </div>
+      <div class="sidebar-item-arrow">›</div>
+    </div>
+    <div class="sidebar-item" onclick="openPopup(&apos;password&apos;)">
+      <div class="sidebar-item-icon" style="background:#E8F4FD;">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#2980B9" stroke-width="1.8" stroke-linecap="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg>
+      </div>
+      <div class="sidebar-item-text">
+        <div class="sidebar-item-title">كلمة المرور</div>
+        <div class="sidebar-item-sub">تغيير كلمة المرور</div>
+      </div>
+      <div class="sidebar-item-arrow">›</div>
+    </div>
+
+    <div class="sidebar-section-label">التطبيق</div>
+    <div class="sidebar-item" onclick="openPopup(&apos;settings&apos;)">
+      <div class="sidebar-item-icon" style="background:#EEE9FE;">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#6C4CF1" stroke-width="1.8" stroke-linecap="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-4 0v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83-2.83l.06-.06A1.65 1.65 0 004.68 15a1.65 1.65 0 00-1.51-1H3a2 2 0 010-4h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 012.83-2.83l.06.06A1.65 1.65 0 009 4.68a1.65 1.65 0 001-1.51V3a2 2 0 014 0v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 2.83l-.06.06A1.65 1.65 0 0019.4 9a1.65 1.65 0 001.51 1H21a2 2 0 010 4h-.09a1.65 1.65 0 00-1.51 1z"/></svg>
+      </div>
+      <div class="sidebar-item-text">
+        <div class="sidebar-item-title">الإعدادات</div>
+        <div class="sidebar-item-sub">اللغة والإشعارات والمظهر</div>
+      </div>
+      <div class="sidebar-item-arrow">›</div>
+    </div>
+    <div class="sidebar-item" onclick="openPopup(&apos;plan&apos;)">
+      <div class="sidebar-item-icon" style="background:#f0ffd0;">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#5a8a00" stroke-width="1.8" stroke-linecap="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+      </div>
+      <div class="sidebar-item-text">
+        <div class="sidebar-item-title">الاشتراك</div>
+        <div class="sidebar-item-sub">الخطة المجانية</div>
+      </div>
+      <div class="sidebar-item-arrow">›</div>
+    </div>
+
+    <div class="sidebar-section-label">الدعم</div>
+    <div class="sidebar-item" onclick="openPopup(&apos;help&apos;)">
+      <div class="sidebar-item-icon" style="background:#FFF3E0;">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#E07B27" stroke-width="1.8" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 015.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+      </div>
+      <div class="sidebar-item-text">
+        <div class="sidebar-item-title">المساعدة</div>
+        <div class="sidebar-item-sub">الأسئلة الشائعة والدعم</div>
+      </div>
+      <div class="sidebar-item-arrow">›</div>
+    </div>
+    <div class="sidebar-item" onclick="openPopup(&apos;report&apos;)">
+      <div class="sidebar-item-icon" style="background:#fff8f8;">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#e24b4a" stroke-width="1.8" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+      </div>
+      <div class="sidebar-item-text">
+        <div class="sidebar-item-title">تبليغ عن مشكلة</div>
+        <div class="sidebar-item-sub">أخبرنا بأي مشكلة تواجهها</div>
+      </div>
+      <div class="sidebar-item-arrow">›</div>
+    </div>
+  </div>
+
+  <div class="sidebar-footer">
+    <button class="logout-btn" onclick="confirmLogout()">
+      <span class="logout-btn-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#e24b4a" stroke-width="1.8" stroke-linecap="round" style="width:16px;height:16px;"><path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+      </span>
+      <span class="logout-btn-text">تسجيل الخروج</span>
+    </button>
+  </div>
+</div>
+
+<!-- معلومات المستخدم -->
+<div class="popup-overlay" id="popup-profile">
+  <div class="popup">
+    <div class="popup-close" onclick="closePopup(&apos;profile&apos;)">✕</div>
+    <h2 class="popup-title">معلومات المستخدم</h2>
+    <p class="popup-sub">تعديل بياناتك الشخصية</p>
+    <div class="avatar-upload-area" onclick="document.getElementById(&apos;avatarInput&apos;).click()">
+      <div class="avatar-upload-icon">🖼️</div>
+      <div class="avatar-upload-text">اضغط لتغيير <span>الصورة الشخصية</span></div>
+      <input type="file" id="avatarInput" accept="image/*" style="display:none" />
+    </div>
+    <div class="popup-field"><label>الاسم الكامل</label><input type="text" value="الطالب" /></div>
+    <div class="popup-field"><label>العمر</label><input type="number" value="18" min="8" max="99" /></div>
+    <div class="popup-actions">
+      <button class="popup-save" onclick="closePopup(&apos;profile&apos;)">حفظ التغييرات</button>
+      <button class="popup-cancel" onclick="closePopup(&apos;profile&apos;)">إلغاء</button>
+    </div>
+  </div>
+</div>
+
+<!-- كلمة المرور -->
+<div class="popup-overlay" id="popup-password">
+  <div class="popup">
+    <div class="popup-close" onclick="closePopup(&apos;password&apos;)">✕</div>
+    <h2 class="popup-title">تغيير كلمة المرور</h2>
+    <p class="popup-sub">أدخل كلمة المرور الجديدة</p>
+    <div class="popup-field"><label>كلمة المرور الحالية</label><input type="password" placeholder="••••••••" /></div>
+    <div class="popup-field"><label>كلمة المرور الجديدة</label><input type="password" placeholder="••••••••" /></div>
+    <div class="popup-field"><label>تأكيد كلمة المرور</label><input type="password" placeholder="••••••••" /></div>
+    <div class="popup-actions">
+      <button class="popup-save" onclick="closePopup(&apos;password&apos;)">تغيير كلمة المرور</button>
+      <button class="popup-cancel" onclick="closePopup(&apos;password&apos;)">إلغاء</button>
+    </div>
+  </div>
+</div>
+
+<!-- إعدادات -->
+<div class="popup-overlay" id="popup-settings">
+  <div class="popup">
+    <div class="popup-close" onclick="closePopup(&apos;settings&apos;)">✕</div>
+    <h2 class="popup-title">الإعدادات</h2>
+    <p class="popup-sub">خصّص تجربتك في نهج</p>
+    <div class="toggle-row"><div><div class="toggle-label">الإشعارات</div><div class="toggle-sub">تلقي تنبيهات الدراسة</div></div><div class="toggle on" onclick="this.classList.toggle(&apos;on&apos;)"><div class="toggle-knob"></div></div></div>
+    <div class="toggle-row"><div><div class="toggle-label">المظهر الداكن</div><div class="toggle-sub">تفعيل الوضع الليلي</div></div><div class="toggle" onclick="this.classList.toggle(&apos;on&apos;)"><div class="toggle-knob"></div></div></div>
+    <div class="toggle-row"><div><div class="toggle-label">اللغة الإنجليزية</div><div class="toggle-sub">عرض الواجهة بالإنجليزية</div></div><div class="toggle" onclick="this.classList.toggle(&apos;on&apos;)"><div class="toggle-knob"></div></div></div>
+    <div class="toggle-row"><div><div class="toggle-label">تذكيرات يومية</div><div class="toggle-sub">تذكير بالدراسة يومياً</div></div><div class="toggle on" onclick="this.classList.toggle(&apos;on&apos;)"><div class="toggle-knob"></div></div></div>
+    <div class="popup-actions" style="margin-top:16px;">
+      <button class="popup-save" onclick="closePopup(&apos;settings&apos;)">حفظ الإعدادات</button>
+      <button class="popup-cancel" onclick="closePopup(&apos;settings&apos;)">إلغاء</button>
+    </div>
+  </div>
+</div>
+
+<!-- اشتراك -->
+<div class="popup-overlay" id="popup-plan">
+  <div class="popup">
+    <div class="popup-close" onclick="closePopup(&apos;plan&apos;)">✕</div>
+    <h2 class="popup-title">الاشتراك</h2>
+    <p class="popup-sub">خطتك الحالية وخيارات الترقية</p>
+    <div class="plan-badge">⭐ الخطة المجانية — نشطة</div>
+    <p style="font-size:12px;color:var(--gray);margin-bottom:16px;line-height:1.7;">الخطة المجانية تتيح لك 10 محادثات شهرياً. قم بالترقية للحصول على محادثات غير محدودة واختبارات تلقائية وتتبع تقدم تفصيلي.</p>
+    <button class="upgrade-btn" onclick="closePopup(&apos;plan&apos;)">⚡ ترقية للاحترافية — 29 ريال/شهر</button>
+    <div style="text-align:center;margin-top:12px;"><span style="font-size:11px;color:#bbb;cursor:pointer;" onclick="closePopup(&apos;plan&apos;)">إلغاء</span></div>
+  </div>
+</div>
+
+<!-- مساعدة -->
+<div class="popup-overlay" id="popup-help">
+  <div class="popup">
+    <div class="popup-close" onclick="closePopup(&apos;help&apos;)">✕</div>
+    <h2 class="popup-title">المساعدة</h2>
+    <p class="popup-sub">كيف يمكننا مساعدتك؟</p>
+    <div style="display:flex;flex-direction:column;gap:10px;margin-bottom:18px;">
+      <div style="padding:12px;border-radius:10px;background:var(--gray-light);cursor:pointer;"><div style="font-size:13px;color:var(--black);font-weight:500;">📖 دليل الاستخدام</div><div style="font-size:11px;color:var(--gray);margin-top:2px;">تعلم كيف تستخدم نهج بشكل كامل</div></div>
+      <div style="padding:12px;border-radius:10px;background:var(--gray-light);cursor:pointer;"><div style="font-size:13px;color:var(--black);font-weight:500;">❓ الأسئلة الشائعة</div><div style="font-size:11px;color:var(--gray);margin-top:2px;">إجابات على أكثر الأسئلة شيوعاً</div></div>
+      <div style="padding:12px;border-radius:10px;background:var(--gray-light);cursor:pointer;"><div style="font-size:13px;color:var(--black);font-weight:500;">💬 تواصل معنا</div><div style="font-size:11px;color:var(--gray);margin-top:2px;">تحدث مع فريق الدعم مباشرة</div></div>
+    </div>
+    <button class="popup-cancel" style="width:100%;" onclick="closePopup(&apos;help&apos;)">إغلاق</button>
+  </div>
+</div>
+
+<!-- تبليغ -->
+<div class="popup-overlay" id="popup-report">
+  <div class="popup">
+    <div class="popup-close" onclick="closePopup(&apos;report&apos;)">✕</div>
+    <h2 class="popup-title">تبليغ عن مشكلة</h2>
+    <p class="popup-sub">ساعدنا في تحسين نهج</p>
+    <div class="popup-field">
+      <label>نوع المشكلة</label>
+      <select style="padding:11px 14px;border-radius:9px;border:1px solid #e0e0e0;font-size:13px;font-family:&apos;ThmanyahSans&apos;,sans-serif;color:var(--black);outline:none;direction:rtl;width:100%;background:#fff;">
+        <option>خطأ تقني</option><option>مشكلة في المحتوى</option><option>مشكلة في الأداء</option><option>اقتراح تحسين</option><option>أخرى</option>
+      </select>
+    </div>
+    <div class="popup-field">
+      <label>وصف المشكلة</label>
+      <textarea style="padding:11px 14px;border-radius:9px;border:1px solid #e0e0e0;font-size:13px;font-family:&apos;ThmanyahSans&apos;,sans-serif;color:var(--black);outline:none;direction:rtl;width:100%;min-height:90px;resize:none;" placeholder="اشرح المشكلة التي واجهتها..."></textarea>
+    </div>
+    <div class="popup-actions">
+      <button class="popup-save" onclick="closePopup(&apos;report&apos;)">إرسال التبليغ</button>
+      <button class="popup-cancel" onclick="closePopup(&apos;report&apos;)">إلغاء</button>
+    </div>
+  </div>
+</div>
+
+<!-- تأكيد تسجيل الخروج -->
+<div class="popup-overlay" id="popup-logout">
+  <div class="popup">
+    <div class="popup-close" onclick="closePopup(&apos;logout&apos;)">✕</div>
+    <h2 class="popup-title">تسجيل الخروج</h2>
+    <p class="popup-sub">هل أنت متأكد أنك تريد تسجيل الخروج من نهج؟</p>
+    <div class="popup-actions">
+      <button class="popup-save" style="background:#e24b4a;" onclick="location.href=&apos;auth.html&apos;">نعم، تسجيل الخروج</button>
+      <button class="popup-cancel" onclick="closePopup(&apos;logout&apos;)">إلغاء</button>
+    </div>
+  </div>
+</div>
+
+<script>
+function openSidebar(){document.getElementById('sidebarPanel').classList.add('show');document.getElementById('overlay').classList.add('show');document.body.style.overflow='hidden';}
+function closeSidebar(){document.getElementById('sidebarPanel').classList.remove('show');document.getElementById('overlay').classList.remove('show');document.body.style.overflow='';}
+function openPopup(type){closeSidebar();setTimeout(()=>{document.getElementById('popup-'+type).classList.add('show');},200);}
+function closePopup(type){document.getElementById('popup-'+type).classList.remove('show');}
+function confirmLogout(){closeSidebar();setTimeout(()=>openPopup('logout'),200);}
+document.querySelectorAll('.popup-overlay').forEach(el=>{el.addEventListener('click',function(e){if(e.target===this)this.classList.remove('show');});});
+</script>
+
+<script>
+// ضع مفتاحك هنا
+const GEMINI_API_KEY = 'YOUR_API_KEY_HERE';
+
+async function askGemini(userMessage, serviceType) {
+  const systemPrompts = {
+    assistant: 'أنت مساعد تعليمي ذكي اسمك نهج. تساعد الطلاب في أي مادة دراسية. أجب بالعربية دائماً بأسلوب واضح ومبسط.',
+    summary:   'أنت مساعد متخصص في تلخيص المحتوى التعليمي. قدم ملخصاً شاملاً ومنظماً. أجب بالعربية.',
+    quiz:      'أنت مساعد متخصص في إنشاء اختبارات تعليمية. أنشئ أسئلة بأربعة خيارات لكل سؤال بصيغة واضحة. أجب بالعربية.',
+    project:   'أنت مساعد متخصص في مساعدة الطلاب على بناء المشاريع البحثية خطوة بخطوة. أجب بالعربية.',
+    progress:  'أنت مساعد تعليمي متخصص في بناء مسارات تعليمية وتتبع التقدم. أجب بالعربية.',
+  };
+
+  const systemPrompt = systemPrompts[serviceType] || systemPrompts.assistant;
+
+  try {
+    const response = await fetch(
+      `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash-latest:generateContent?key=${GEMINI_API_KEY}`,
+      {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          contents: [{ parts: [{ text: systemPrompt + '\n\nالمستخدم: ' + userMessage }] }],
+          generationConfig: { temperature: 0.7, maxOutputTokens: 1000 }
+        })
+      }
+    );
+    const data = await response.json();
+    return data.candidates?.[0]?.content?.parts?.[0]?.text || 'عذراً، حدث خطأ. حاول مرة أخرى.';
+  } catch (err) {
+    return 'عذراً، تعذر الاتصال. تحقق من اتصالك بالإنترنت.';
+  }
+}
+</script>
+
+</body>
+</html>
